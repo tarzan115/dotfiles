@@ -8,11 +8,14 @@ sudo dnf install ghostty nu starship gcc dms zoxide -y
 ## zed
 curl -f https://zed.dev/install.sh | sh
 
+## brave
+curl -fsS https://dl.brave.com/install.sh | sh
+
 ## rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 ## kanata
-cargo install cargo-binstall kanata topgrade
+cargo install cargo-binstall kanata topgrade cargo-update
 
 ## mangowc
 sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
