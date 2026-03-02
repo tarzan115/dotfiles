@@ -4,3 +4,4 @@ source $"($nu.home-path)/.cargo/env.nu"
 
 # $env.PATH = $env.PATH + ":~/.local/bin"
 $env.Path = ($env.Path | prepend '~/.local/bin')
+source ~/.zoxide.nu

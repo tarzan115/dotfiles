@@ -3,7 +3,7 @@
 # installing tools
 sudo dnf copr enable scottames/ghostty atim/starship avengemedia/dms -y
 
-sudo dnf install ghostty nu starship gcc dms -y
+sudo dnf install ghostty nu starship gcc dms zoxide -y
 
 ## zed
 curl -f https://zed.dev/install.sh | sh
@@ -66,3 +66,6 @@ dms setup
 
 ## mango config
 git clone -b dms git@github.com:tarzan115/mango-config.git ~/.config/mango
+
+## zoxide config
+zoxide init nushell | save -f ~/.zoxide.nu
