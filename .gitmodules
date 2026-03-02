@@ -1,3 +1,6 @@
 [submodule "caps"]
 	path = caps
-	url = https://github.com/tarzan115/caps
+	url = git@github.com:tarzan115/caps.git
+[submodule "mango-config"]
+	path = mango-config
+	url = git@github.com:tarzan115/mango-config.git
