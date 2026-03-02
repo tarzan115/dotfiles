@@ -3,7 +3,7 @@
 # installing tools
 sudo dnf copr enable scottames/ghostty atim/starship avengemedia/dms -y
 
-sudo dnf install ghostty nu starship gcc dms zoxide -y
+sudo dnf install ghostty starship gcc dms helix fzf -y
 
 ## zed
 curl -f https://zed.dev/install.sh | sh
@@ -15,7 +15,7 @@ curl -fsS https://dl.brave.com/install.sh | sh
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 ## kanata
-cargo install cargo-binstall kanata topgrade cargo-update nu
+cargo install cargo-binstall kanata topgrade cargo-update nu zoxide
 
 ## mangowc
 sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
@@ -35,7 +35,7 @@ starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.n
 wget -P ~/.config https://raw.githubusercontent.com/thm-unix/thm-zshtheme/main/starship.toml
 
 ## config ghostty
-echo "command = /usr/bin/nu" >> ~/.config/ghostty/config
+echo "command = $(which nu)" >> ~/.config/ghostty/config
 
 # git config
 git config --global user.email "doanhlv@duck.com"
