@@ -15,7 +15,7 @@ curl -fsS https://dl.brave.com/install.sh | sh
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 ## kanata
-cargo install cargo-binstall kanata topgrade cargo-update nu zoxide
+cargo install cargo-binstall kanata topgrade cargo-update nu zoxide ripgrep
 
 ## mangowc
 sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
@@ -72,3 +72,14 @@ git clone -b dms git@github.com:tarzan115/mango-config.git ~/.config/mango
 
 ## zoxide config
 zoxide init nushell | save -f ~/.zoxide.nu
+
+
+
+
+
+
+
+
+
+### manual packages
+echo -e "manual packages:\n\t* carapace: for autocomplete"
