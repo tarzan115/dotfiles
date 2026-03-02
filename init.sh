@@ -1,9 +1,9 @@
 #! /bin/bash
 
 # installing tools
-sudo dnf copr enable scottames/ghostty atim/starship -y
+sudo dnf copr enable scottames/ghostty atim/starship avengemedia/dms -y
 
-sudo dnf install ghostty nu starship gcc -y
+sudo dnf install ghostty nu starship gcc dms -y
 
 ## zed
 curl -f https://zed.dev/install.sh | sh
@@ -14,7 +14,9 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ## kanata
 cargo install cargo-binstall kanata
 
-#
+## mangowc
+sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
+sudo dnf install mangowc -y
 
 # finishing up
 ## set nu as default shell
@@ -57,3 +59,10 @@ systemctl --user daemon-reload
 systemctl --user enable kanata.service
 systemctl --user start kanata.service
 systemctl --user status kanata.service   # check whether the service is running
+
+## dms config
+systemctl --user enable --now dsearch
+dms setup
+
+## mango config
+git clone -b dms git@github.com:tarzan115/mango-config.git ~/.config/mango
