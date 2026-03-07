@@ -1,6 +1,8 @@
 alias cg = cargo
 alias cgi = cargo binstall -y
+alias cgr = cargo run --quiet
 alias cgs = cargo search
+alias cgx = cargo expand
 alias di = sudo dnf install -y
 alias drm = sudo dnf remove -y
 alias ds = dnf search
