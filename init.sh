@@ -3,7 +3,7 @@
 # installing tools
 sudo dnf copr enable scottames/ghostty atim/starship avengemedia/dms -y
 
-sudo dnf install ghostty starship gcc dms helix fzf -y
+sudo dnf install ghostty starship gcc dms helix fzf cmake -y
 
 ## zed
 curl -f https://zed.dev/install.sh | sh
@@ -15,7 +15,7 @@ curl -fsS https://dl.brave.com/install.sh | sh
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 ## kanata
-cargo install cargo-binstall kanata topgrade cargo-update nu zoxide ripgrep
+cargo install cargo-binstall kanata topgrade cargo-update nu zoxide ripgrep bat
 
 ## mangowc
 sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
