@@ -15,7 +15,7 @@ curl -fsS https://dl.brave.com/install.sh | sh
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 ## kanata
-cargo install cargo-binstall kanata topgrade cargo-update nu zoxide ripgrep bat cargo-expand
+cargo install cargo-binstall kanata topgrade cargo-update nu zoxide ripgrep bat cargo-expand fd-find
 
 ## mangowc
 sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
