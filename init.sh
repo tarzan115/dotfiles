@@ -3,7 +3,7 @@
 # installing tools
 sudo dnf copr enable scottames/ghostty atim/starship avengemedia/dms -y
 
-sudo dnf install ghostty starship gcc dms helix fzf cmake -y
+sudo dnf install ghostty starship gcc dms helix fzf cmake fira-code-fonts bash-language-server -y
 
 ## zed
 curl -f https://zed.dev/install.sh | sh

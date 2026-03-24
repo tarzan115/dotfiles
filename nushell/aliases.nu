@@ -4,11 +4,10 @@ alias cgr = cargo run --quiet
 alias cgs = cargo search
 alias cgx = cargo expand
 alias di = sudo dnf install -y
+alias ids = sudo dnf install -y
 alias drm = sudo dnf remove -y
 alias ds = dnf search
 alias tg = topgrade -y --no-retry
-
-
 
 # aliases as a function
 def --env tk [dir] {
