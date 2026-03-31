@@ -1,9 +1,9 @@
 #! /bin/bash
 
 # installing tools
-sudo dnf copr enable scottames/ghostty atim/starship avengemedia/dms -y
+sudo dnf copr enable atim/starship avengemedia/dms -y
 
-sudo dnf install ghostty starship gcc dms helix fzf cmake fira-code-fonts bash-language-server -y
+sudo dnf install foot starship gcc dms helix fzf cmake fira-code-fonts bash-language-server -y
 
 ## zed
 curl -f https://zed.dev/install.sh | sh
@@ -34,9 +34,8 @@ mkdir ($nu.data-dir | path join "vendor/autoload")
 starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
 wget -P ~/.config https://raw.githubusercontent.com/thm-unix/thm-zshtheme/main/starship.toml
 
-## config ghostty
-echo "command = $(which nu)" >> ~/.config/ghostty/config
-
+## config foot
+cp -r ./mango-config/foot ~/.config/
 # git config
 git config --global user.email "doanhlv@duck.com"
 git config --global user.name "Doanh Van Luong"
