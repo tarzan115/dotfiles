@@ -3,7 +3,7 @@
 # installing tools
 sudo dnf copr enable atim/starship avengemedia/dms -y
 
-sudo dnf install foot starship gcc dms helix fzf cmake jetbrainsmono-nerd-fonts bash-language-server -y
+sudo dnf install foot starship gcc dms helix fzf cmake jetbrainsmono-nerd-fonts bash-language-server carapace -y
 
 ## zed
 curl -f https://zed.dev/install.sh | sh
