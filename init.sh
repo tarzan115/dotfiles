@@ -1,9 +1,7 @@
 #! /bin/bash
 
 # installing tools
-sudo dnf copr enable atim/starship avengemedia/dms -y
-
-sudo dnf install foot starship gcc dms helix fzf cmake jetbrainsmono-nerd-fonts bash-language-server carapace -y
+sudo dnf install foot starship gcc helix fzf cmake jetbrainsmono-nerd-fonts bash-language-server carapace fastfetch -y
 
 ## zed
 curl -f https://zed.dev/install.sh | sh
@@ -62,18 +60,16 @@ systemctl --user enable kanata.service
 systemctl --user start kanata.service
 systemctl --user status kanata.service   # check whether the service is running
 
-## dms config
-systemctl --user enable --now dsearch
-dms setup
-
-## mango config
-git clone -b dms git@github.com:tarzan115/mango-config.git ~/.config/mango
-
 ## zoxide config
 zoxide init nushell | save -f ~/.zoxide.nu
 
-
-
+## git delta (diff)
+git config --global core.pager delta
+git config --global interactive.diffFilter 'delta --color-only'
+git config --global delta.navigate true
+git config --global merge.conflictStyle zdiff3
+git config --global delta.line-numbers true
+git config --global delta.side-by-side true
 
 
 
