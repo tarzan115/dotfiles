@@ -8,6 +8,7 @@ alias drm = sudo dnf remove -y
 alias ds = dnf search
 alias icgs = cargo binstall -y
 alias ids = sudo dnf install -y
+alias ll = ls -la
 alias lstr = lstr --icons --color always
 alias rr = rustrover
 alias tg = topgrade -y --no-retry

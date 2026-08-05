@@ -4,4 +4,4 @@
 [submodule "mango-config"]
 	path = mango-config
 	url = git@github.com:tarzan115/mango-config.git
-	branch = dms
+	branch = main

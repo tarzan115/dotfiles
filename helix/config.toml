@@ -4,6 +4,7 @@ theme = "monokai_pro_spectrum"
 line-number = "relative"
 end-of-line-diagnostics = "hint"
 completion-trigger-len = 0
+bufferline = "always"
 
 [editor.inline-diagnostics]
 cursor-line = "warning"
