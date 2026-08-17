@@ -30,7 +30,7 @@ echo "source $HOME/workspace/dotfiles/nushell/my.nu" >> ~/.config/nushell/config
 ## starship config for nushell
 mkdir ($nu.data-dir | path join "vendor/autoload")
 starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
-wget -P ~/.config https://raw.githubusercontent.com/thm-unix/thm-zshtheme/main/starship.toml
+cp ./starship/starship.toml ~/.config/
 
 ## config foot
 cp -r ./mango-config/foot ~/.config/
