@@ -118,6 +118,11 @@ in
     };
   };
 
+  programs.antigravity-cli = {
+    enable = true;
+    defaultModel = "gemini-3.7-flash";
+  };
+
   home.file = {
     # ---- nushell: the repo's my.nu is the real config ----
     ".config/nushell/config.nu".text = "source ${dotfiles}/nushell/my.nu\n";
@@ -142,7 +147,7 @@ in
     ".config/topgrade.toml".source = link "${dotfiles}/topgrade.toml";
 
     # ---- zellij ----
-    ".config/zellij/config.kdl".text = builtins.readFile ./zellij-config.kdl;
+    ".config/zellij/config.kdl".source = link "${dotfiles}/zellij/config.kdl";
 
     # ---- starship (thm theme) ----
     ".config/starship.toml".source = link "${dotfiles}/starship/starship.toml";

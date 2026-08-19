@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, inputs, pkgs, ... }:
+{ config, inputs, pkgs, lib, ... }:
 
 let
   # Session script started by greetd after login. PATH ordering matters:
@@ -156,6 +156,9 @@ in
     account  required pam_permit.so
   '';
 
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "antigravity-cli"
+  ];
  
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
