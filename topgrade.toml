@@ -1,0 +1,6 @@
+[misc]
+Self_update = true
+
+[commands]
+"Update flake inputs" = "bash ~/dotfiles/nixos/update-flake.sh"
+"Rebuild system" = "sudo nixos-rebuild switch --flake ~/dotfiles/nixos"

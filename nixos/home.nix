@@ -138,6 +138,9 @@ in
     # ---- yazi (whole dir; plugins/flavors installed with `ya pack -i`) ----
     ".config/yazi".source = link "${dotfiles}/yazi";
 
+    # ---- topgrade ----
+    ".config/topgrade.toml".source = link "${dotfiles}/topgrade.toml";
+
     # ---- zellij ----
     ".config/zellij/config.kdl".text = builtins.readFile ./zellij-config.kdl;
 

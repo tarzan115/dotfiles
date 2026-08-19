@@ -27,21 +27,29 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, mangowm, dms, ... }@inputs: {
-    nixosConfigurations.doanh-nixos = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs; };
-      modules = [
-        mangowm.nixosModules.mango
-        dms.nixosModules.dank-material-shell # Enables DMS module
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.doanh = import ./home.nix;
-        }
-        ./configuration.nix
-      ];
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      mangowm,
+      dms,
+      ...
+    } @ inputs: {
+      nixosConfigurations.doanh-nixos = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs;};
+        modules = [
+          mangowm.nixosModules.mango
+          dms.nixosModules.dank-material-shell
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useUserPackages = true;
+            home-manager.useGlobalPkgs = true;
+            home-manager.users.doanh = import ./home.nix;
+          }
+          ./configuration.nix
+        ];
+      };
     };
-  };
 }
