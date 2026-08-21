@@ -186,7 +186,8 @@
         "dms": "dms",
         "home-manager": "home-manager",
         "mangowm": "mangowm",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "tuigreet-config": "tuigreet-config"
       }
     },
     "scenefx": {
@@ -225,6 +226,19 @@
         "owner": "nix-systems",
         "repo": "default-linux",
         "type": "github"
+      }
+    },
+    "tuigreet-config": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787262013,
+        "narHash": "sha256-ZXD8OJSiBeqvIP5GYr7LpqNVTDzVZJroXVLiFf3vd7M=",
+        "path": "/home/doanh/dotfiles/tuigreet",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/doanh/dotfiles/tuigreet",
+        "type": "path"
       }
     }
   },

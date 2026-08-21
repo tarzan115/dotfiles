@@ -64,7 +64,6 @@ in
   users.users."doanh" = {
     isNormalUser = true;
     description = "doanh";
-    extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.nushell;
     packages = with pkgs; [];
   };
@@ -112,6 +111,12 @@ in
     '';
   };
 
+  # tuigreet configuration file — sourced from the dotfiles repo and deployed
+  # to /etc/tuigreet/config.toml so the greeter user can read it.
+  # Edit dotfiles/tuigreet/config.toml, then rebuild to apply changes.
+  environment.etc."tuigreet/config.toml".source =
+    "${inputs.tuigreet-config}/config.toml";
+
   # Password login into mango at boot. greetd shows tuigreet, which asks for
   # the password before handing off to the session script. The session script
   # sets the session bus + PATH, then hands off to mango; mango's config.conf
@@ -123,7 +128,7 @@ in
     settings = {
       default_session = {
         user = "greeter";
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd ${mango-session}";
+        command = "${pkgs.tuigreet}/bin/tuigreet --config /etc/tuigreet/config.toml --time --cmd ${mango-session}";
       };
     };
   };
@@ -159,7 +164,10 @@ in
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "antigravity-cli"
   ];
- 
+
+  # Enable nix-command and flakes so `nix run`, `nix shell`, etc. work
+  # without passing --extra-experimental-features every time.
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -169,6 +177,26 @@ in
   # };
 
   # List services that you want to enable:
+
+  # Bluetooth — bluez stack + blueman applet for GUI pairing.
+  # hsphfpd handles headset/handsfree profiles; bluez-alsa/pipewire bridges
+  # A2DP so audio devices show up automatically in PipeWire/PulseAudio.
+  hardware.bluetooth = {
+    enable = true;           # Enable the bluez kernel stack
+    powerOnBoot = true;      # Power the adapter on at boot
+    settings = {
+      Policy.AutoEnable = true;   # Auto-enable adapter after suspend/resume
+      General = {
+        Experimental = true;      # Enable battery reporting and other extras
+        FastConnectable = true;   # Reduce reconnect latency
+      };
+    };
+  };
+
+  services.blueman.enable = true; # System tray / GUI pairing tool
+
+  # Ensure doanh can manage bluetooth devices without sudo
+  users.users."doanh".extraGroups = [ "networkmanager" "wheel" "bluetooth" ];
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;

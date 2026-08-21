@@ -25,6 +25,13 @@
       url = "path:/home/doanh/dotfiles/caps";
       flake = false;
     };
+
+    # tuigreet config folder — pulled in as a path input so configuration.nix
+    # can reference its files in pure evaluation mode.
+    tuigreet-config = {
+      url = "path:/home/doanh/dotfiles/tuigreet";
+      flake = false;
+    };
   };
 
   outputs =

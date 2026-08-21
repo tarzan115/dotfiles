@@ -65,11 +65,13 @@ in
     carapace
     fastfetch
     opencode
+    rumdl
 
     # ---- editors ----
     helix
     zed-editor
     bash-language-server
+    libreoffice-fresh
 
     # ---- browser ----
     firefox

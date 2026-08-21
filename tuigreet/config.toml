@@ -1,0 +1,19 @@
+[background]
+kind = "doom"   # uncomment to enable the DOOM fire animation
+fps  = 30
+
+# doom-specific options (only relevant when kind = "doom")
+doom_height = 6
+doom_spread = 2
+doom_colors = "red,orange,yellow"
+
+# matrix-specific options (only relevant when kind = "matrix")
+# matrix_length = "6,18"
+# matrix_speed  = "0.30,1.10"
+# matrix_colors = "white,green,darkgreen"
+
+[keybindings]
+command    = 2   # F2  — edit command
+sessions   = 3   # F3  — session picker
+power      = 12  # F12 — power menu
+background = 4   # F4  — background switcher
