@@ -5,57 +5,57 @@ hash = "9776f378459072b6c2875eae5addc49d"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "efa4d79"
+rev = "044c3cc"
 hash = "87472b05a8c420100f6a2b9cde1e7746"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:diff"
-rev = "efa4d79"
+rev = "044c3cc"
 hash = "14558d2829c0aa05e99c57de8f74d199"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:full-border"
-rev = "efa4d79"
+rev = "044c3cc"
 hash = "f281261ff04ad7ec867c3f802a50835f"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "efa4d79"
+rev = "044c3cc"
 hash = "5bb0bfab901d3601c370eafdd66edd31"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mactag"
-rev = "efa4d79"
+rev = "044c3cc"
 hash = "34e3e12060f833cc21446f23a7ced8d1"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mount"
-rev = "efa4d79"
+rev = "044c3cc"
 hash = "46cbdc05596a3ecd730b288e28c7079d"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:smart-enter"
-rev = "efa4d79"
+rev = "044c3cc"
 hash = "187cc58ba7ac3befd49c342129e6f1b6"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:vcs-files"
-rev = "efa4d79"
+rev = "044c3cc"
 hash = "853240b2454c93a93fd03fc9fd7e06e8"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:toggle-pane"
-rev = "efa4d79"
+rev = "044c3cc"
 hash = "5b2fbef7d1513ce38ff72623a071a5e"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:piper"
-rev = "efa4d79"
+rev = "044c3cc"
 hash = "45a533508a9840cc5a10cf6129f63e6a"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:types"
-rev = "efa4d79"
+rev = "044c3cc"
 hash = "ff056b5acd05d915dc3a3936cb0cfd3e"
 
 [[plugin.deps]]
@@ -65,15 +65,15 @@ hash = "7c2adf394b5d2e1d984a7293148ea3c5"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:zoom"
-rev = "efa4d79"
+rev = "044c3cc"
 hash = "e8e279463ee99c940e6945a14cf4aa9e"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-latte"
-rev = "be0b21d"
+rev = "20b47bf"
 hash = "273ee53369ccfbf7feb9b0c65e387ed8"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-macchiato"
-rev = "be0b21d"
+rev = "20b47bf"
 hash = "5b1bf96d1cba26376087c37de993c517"

@@ -1,5 +1,4 @@
 [misc]
-Self_update = true
 
 [commands]
 "Update flake inputs" = "bash ~/dotfiles/nixos/update-flake.sh"

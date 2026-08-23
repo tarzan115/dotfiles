@@ -78,7 +78,87 @@ in
      qt6.qtwayland   # QT support for Wayland interfaces
      pamixer         # Audio control via DMS widgets
      brightnessctl   # Brightness sliders
+     xdg-desktop-portal     # Required for screen sharing via portal protocol
+     xdg-desktop-portal-wlr # Wayland (wlroots-based) portal backend for MangoWM
   ];
+
+  # PipeWire — replaces PulseAudio and provides the WebRTC screen-capture
+  # pipeline that Firefox uses for Google Meet screen sharing on Wayland.
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;       # ALSA compat shim
+    alsa.support32Bit = true; # 32-bit app support (e.g. Steam)
+    pulse.enable = true;      # PulseAudio compat shim (pamixer, bluez-alsa)
+    wireplumber.enable = true; # Session/policy manager
+  };
+  # PulseAudio must be off when PipeWire is the audio server
+  hardware.pulseaudio.enable = false;
+  security.rtkit.enable = true; # Gives PipeWire real-time priority
+
+  # dconf service (D-Bus activated) — GTK/GNOME apps (kooha, DMS dialogs)
+  # persist their GSettings through it. Without it they log
+  # "ServiceUnknown: The name is not activatable" and lose settings.
+  programs.dconf.enable = true;
+
+  # Vietnamese input: fcitx5 + Unikey engine. The module exports
+  # GTK_IM_MODULE/QT_IM_MODULE/XMODIFIERS globally and installs
+  # fcitx5-with-addons into systemPackages; the daemon is launched by
+  # mango-config/autostart.sh (`fcitx5 --replace -d`). fcitx5-gtk ships the
+  # GTK IM module that GTK_IM_MODULE=fcitx loads — without it GTK apps log
+  # "No IM module matching GTK_IM_MODULE=fcitx found" and typing breaks.
+  # settings.inputMethod seeds /etc/xdg/fcitx5/profile as the default;
+  # per-user tweaks in ~/.config/fcitx5/profile take priority over it.
+  i18n.inputMethod = {
+    enable = true;
+    type = "fcitx5";
+    fcitx5.addons = with pkgs; [
+      fcitx5-gtk
+      qt6Packages.fcitx5-unikey
+    ];
+    fcitx5.settings.inputMethod = {
+      "Groups/0" = {
+        Name = "Default";
+        DefaultLayout = "us";
+        DefaultIM = "unikey";
+      };
+      "Groups/0/Items/0" = {
+        Name = "keyboard-us";
+        Layout = "";
+      };
+      "Groups/0/Items/1" = {
+        Name = "unikey";
+        Layout = "";
+      };
+      "GroupOrder"."0" = "Default";
+    };
+  };
+
+  # Move the hand-made ~/.config/xdg-desktop-portal/portals.conf aside so
+  # mango's module-generated /etc/xdg/xdg-desktop-portal/mango-portals.conf
+  # rules instead: it routes ScreenCast/Screenshot to wlr, disables Inhibit
+  # (stops "Inhibiting other than idle not supported" journal spam), and
+  # maps Secret to gnome-keyring if that ever gets installed.
+
+  # Pin xdg-desktop-portal-wlr to 0.7.x from nixos-25.05: the 0.8.x rewrite
+  # picks its ext-image-copy-capture path on mango and fails with
+  # "started frame without buffer" (emersion/xdg-desktop-portal-wlr#369).
+  # 0.7.x uses wlr-screencopy, which mango (wlroots) supports.
+  nixpkgs.overlays = [
+    (final: prev: {
+      xdg-desktop-portal-wlr =
+        inputs.nixpkgs-old.legacyPackages.${prev.system}.xdg-desktop-portal-wlr;
+    })
+  ];
+
+  # Skip the wlr portal's picker entirely: "none" makes xdwim 0.7.x
+  # auto-select the output named below, falling back to the first monitor.
+  # ("none" is only understood by 0.7.x; 0.8.x removed it.)
+  xdg.portal.wlr.settings = {
+    screencast = {
+      chooser_type = "none";
+      # output_name = "eDP-1";
+    };
+  };
 
   # Fonts (JetBrains Mono Nerd Font used by alacritty/foot)
   fonts.packages = with pkgs; [

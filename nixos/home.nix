@@ -96,6 +96,8 @@ in
     cliphist
     grim
     slurp
+    wf-recorder # CLI screen recorder via wlr-screencopy (no portal needed)
+    kooha # portal-based screen recorder; tests the ScreenCast pipeline
 
     # ---- misc ----
     mangohud
