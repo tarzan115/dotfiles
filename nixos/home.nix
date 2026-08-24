@@ -80,6 +80,9 @@ in
     # ---- rust toolchain & cargo helpers ----
     cargo
     rustc
+    rustfmt
+    rust-analyzer
+    lldb
     cargo-expand
     cargo-binstall
     cargo-update
