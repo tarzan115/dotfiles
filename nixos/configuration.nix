@@ -92,7 +92,7 @@ in
     wireplumber.enable = true; # Session/policy manager
   };
   # PulseAudio must be off when PipeWire is the audio server
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true; # Gives PipeWire real-time priority
 
   # dconf service (D-Bus activated) — GTK/GNOME apps (kooha, DMS dialogs)
@@ -146,7 +146,7 @@ in
   nixpkgs.overlays = [
     (final: prev: {
       xdg-desktop-portal-wlr =
-        inputs.nixpkgs-old.legacyPackages.${prev.system}.xdg-desktop-portal-wlr;
+        inputs.nixpkgs-old.legacyPackages.${prev.stdenv.hostPlatform.system}.xdg-desktop-portal-wlr;
     })
   ];
 

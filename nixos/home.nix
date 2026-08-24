@@ -55,6 +55,7 @@ in
     zellij
     alacritty
     foot
+    ueberzugpp
     bat
     ripgrep
     fd
@@ -71,7 +72,7 @@ in
     helix
     zed-editor
     bash-language-server
-    libreoffice-fresh
+    libreoffice-stable
 
     # ---- browser ----
     firefox
