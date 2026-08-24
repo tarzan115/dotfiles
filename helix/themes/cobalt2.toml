@@ -1,0 +1,125 @@
+"attribute" = "yellow"
+"type" = "mint"
+"type.builtin" = "mint"
+"type.parameter" = "mint"
+"constructor" = "mint"
+"constant" = "pink"
+"constant.builtin" = "pink"
+"constant.numeric" = "pink"
+"constant.character.escape" = "parameter"
+"string" = "green"
+"string.regexp" = "green"
+"string.special" = "parameter"
+"comment" = { fg = "comment", modifiers = ["italic"] }
+"variable" = "fg_alt"
+"variable.builtin" = "orange"
+"variable.parameter" = "parameter"
+"variable.other.member" = "fg_alt"
+"variable.function" = "yellow"
+"label" = "orange"
+"punctuation" = "fg_alt"
+"punctuation.delimiter" = "fg_alt"
+"punctuation.bracket" = "fg_alt"
+"punctuation.special" = "orange"
+"keyword" = "orange"
+"keyword.control" = "orange"
+"keyword.control.conditional" = "orange"
+"keyword.control.repeat" = "orange"
+"keyword.control.import" = "orange"
+"keyword.control.return" = "orange"
+"keyword.control.exception" = "orange"
+"keyword.operator" = "orange"
+"keyword.directive" = "orange"
+"keyword.function" = "yellow"
+"keyword.storage" = "yellow"
+"keyword.storage.type" = "yellow"
+"keyword.storage.modifier" = "yellow"
+"operator" = "fg_alt"
+"function" = "yellow"
+"function.builtin" = "orange"
+"function.method" = "yellow"
+"function.macro" = "orange"
+"tag" = "cyan"
+"tag.builtin" = "cyan"
+"namespace" = "cyan"
+"special" = "yellow"
+
+"markup.heading" = { fg = "yellow", modifiers = ["bold"] }
+"markup.heading.marker" = "fg_dim"
+"markup.list" = "yellow"
+"markup.bold" = { fg = "cyan", modifiers = ["bold"] }
+"markup.italic" = { fg = "cyan", modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
+"markup.link.url" = { fg = "cyan", modifiers = ["underlined"] }
+"markup.link.text" = "cyan"
+"markup.raw" = "green"
+"markup.raw.inline" = "green"
+"markup.quote" = { fg = "cyan", modifiers = ["italic"] }
+
+"diff.plus" = "green"
+"diff.minus" = "pink"
+"diff.delta" = "yellow"
+
+"diagnostic.error" = { underline = { color = "red", style = "curl" } }
+"diagnostic.warning" = { underline = { color = "yellow", style = "curl" } }
+"diagnostic.info" = { underline = { color = "cyan", style = "curl" } }
+"diagnostic.hint" = { underline = { color = "fg_dim", style = "curl" } }
+"error" = "red"
+"warning" = "yellow"
+"info" = "cyan"
+"hint" = "fg_dim"
+
+"ui.background" = { bg = "bg" }
+"ui.text" = "fg"
+"ui.text.focus" = "fg"
+"ui.text.inactive" = "fg_dim"
+"ui.cursor" = { fg = "bg", bg = "yellow" }
+"ui.cursor.insert" = { fg = "bg", bg = "yellow" }
+"ui.cursor.select" = { fg = "bg", bg = "cyan" }
+"ui.cursor.match" = { fg = "yellow", modifiers = ["bold"] }
+"ui.cursorline.primary" = { bg = "bg_highlight" }
+"ui.selection" = { bg = "selection" }
+"ui.selection.primary" = { bg = "selection" }
+"ui.linenr" = { fg = "fg_dim" }
+"ui.linenr.selected" = { fg = "yellow" }
+"ui.statusline" = { fg = "fg_dim", bg = "bg_darker" }
+"ui.statusline.inactive" = { fg = "fg_gutter", bg = "bg_darker" }
+"ui.statusline.normal" = { fg = "bg", bg = "yellow", modifiers = ["bold"] }
+"ui.statusline.insert" = { fg = "bg", bg = "green", modifiers = ["bold"] }
+"ui.statusline.select" = { fg = "bg", bg = "pink", modifiers = ["bold"] }
+"ui.bufferline" = { fg = "fg_dim", bg = "bg_dark" }
+"ui.bufferline.active" = { fg = "fg", bg = "bg", modifiers = ["bold"] }
+"ui.bufferline.background" = { bg = "bg_dark" }
+"ui.popup" = { fg = "fg", bg = "bg_dark" }
+"ui.popup.info" = { fg = "fg", bg = "bg_dark" }
+"ui.window" = { fg = "fg_gutter" }
+"ui.help" = { fg = "fg", bg = "bg_dark" }
+"ui.menu" = { fg = "fg", bg = "bg_dark" }
+"ui.menu.selected" = { fg = "bg", bg = "yellow" }
+"ui.virtual.ruler" = { bg = "bg_dark" }
+"ui.virtual.whitespace" = "fg_gutter"
+"ui.virtual.indent-guide" = "fg_gutter"
+"ui.virtual.inlay-hint" = { fg = "fg_gutter", bg = "bg_dark" }
+"ui.virtual.jump-label" = { fg = "yellow", modifiers = ["bold"] }
+"ui.highlight" = { bg = "find_match" }
+
+[palette]
+bg = "#193549"
+bg_dark = "#122738"
+bg_darker = "#15232d"
+bg_highlight = "#12456b"
+selection = "#0064c8"
+fg = "#ffffff"
+fg_alt = "#e1efff"
+fg_dim = "#c9d6e3"
+fg_gutter = "#5b7f96"
+comment = "#0088ff"
+green = "#a5ff90"
+orange = "#ff9d00"
+yellow = "#ffc600"
+pink = "#ff628c"
+mint = "#80ffbb"
+cyan = "#9effff"
+parameter = "#ffee80"
+red = "#f44542"
+find_match = "#ff720066"

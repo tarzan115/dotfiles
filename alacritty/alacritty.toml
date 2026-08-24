@@ -1,40 +1,7 @@
-[general]
-import = [
-  "~/.config/alacritty/dank-theme.toml"
-]
-
 [window]
-decorations = "None"
-padding = { x = 12, y = 12 }
-opacity = 1.0
-
-[scrolling]
-history = 3023
-
-[cursor]
-style = { shape = "Block", blinking = "On" }
-blink_interval = 500
-unfocused_hollow = true
-
-[mouse]
-hide_when_typing = true
-
-[selection]
-save_to_clipboard = false
-
-[bell]
-duration = 0
-
-[keyboard]
-bindings = [
-  { key = "C",       mods = "Control|Shift", action = "Copy"  },
-  { key = "V",       mods = "Control|Shift", action = "Paste" },
-  { key = "N",       mods = "Control|Shift", action = "SpawnNewInstance" },
-  { key = "Equals",  mods = "Control|Shift", action = "IncreaseFontSize" },
-  { key = "Minus",   mods = "Control",       action = "DecreaseFontSize" },
-  { key = "Key0",    mods = "Control",       action = "ResetFontSize"    },
-  { key = "Enter",   mods = "Shift",         chars = "\n" },
-]
+decorations = "Full"
+# padding = { x = 10, y = 10 }
+opacity = 0.95
 
 [terminal]
 shell = "/home/doanh/.cargo/bin/nu"
@@ -44,4 +11,39 @@ size = 13
 
 [font.normal]
 family = "JetBrainsMono Nerd Font"
-style = "Regular"
+
+[colors]
+draw_bold_text_with_bright_colors = true
+transparent_background_colors = true
+
+[colors.primary]
+background = "#173448"
+foreground = "#ffffff"
+
+[colors.normal]
+black   = "#000000"
+red     = "#ff2600"
+green   = "#3cdf2b"
+yellow  = "#f4d300"
+blue    = "#1478db"
+magenta = "#ff2c70"
+cyan    = "#00c5c7"
+white   = "#c7c7c7"
+
+[colors.bright]
+black   = "#686868"
+red     = "#f92a1c"
+green   = "#43d426"
+yellow  = "#f1d000"
+blue    = "#6871ff"
+magenta = "#ff77ff"
+cyan    = "#79e8fb"
+white   = "#ffffff"
+
+[colors.cursor]
+text   = "#feffF4"
+cursor = "#f4d300"
+
+[colors.selection]
+text       = "CellForeground"
+background = "#1f4562"

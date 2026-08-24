@@ -138,6 +138,7 @@ in
 
     # ---- helix ----
     ".config/helix/config.toml".source = link "${dotfiles}/helix/config.toml";
+    ".config/helix/themes".source = link "${dotfiles}/helix/themes";
 
     # ---- foot (mango-config submodule) ----
     ".config/foot/foot.ini".source = link "${dotfiles}/mango-config/foot/foot.ini";
