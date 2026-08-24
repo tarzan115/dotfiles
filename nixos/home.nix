@@ -81,6 +81,7 @@ in
     cargo
     rustc
     rustfmt
+    clippy
     rust-analyzer
     lldb
     cargo-expand
@@ -89,6 +90,9 @@ in
     topgrade
 
     # ---- build tooling ----
+    gcc
+    pkg-config
+    gnumake
     cmake
 
     # ---- yazi file manager ----
