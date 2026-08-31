@@ -87,6 +87,7 @@ in
     cargo-expand
     cargo-binstall
     cargo-update
+    sccache
     topgrade
 
     # ---- build tooling ----
@@ -127,6 +128,13 @@ in
       line-numbers = true;
       side-by-side = true;
       navigate = true;
+    };
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "application/pdf" = [ "firefox.desktop" ];
     };
   };
 
@@ -172,6 +180,7 @@ in
     # ---- shims so dotfiles referencing ~/.cargo keep working on NixOS ----
     ".cargo/bin/nu".source = link "${pkgs.nushell}/bin/nu";
     ".cargo/env.nu".text = "";
+    ".cargo/config.toml".source = link "${dotfiles}/cargo/config.toml";
 
     # ---- zoxide nushell init (sourced by nushell/env.nu) ----
     ".zoxide.nu".source =
@@ -186,5 +195,16 @@ in
       mkdir -p "$HOME/.config/alacritty"
       cp -f ${dankTheme} "$HOME/.config/alacritty/dank-theme.toml"
     fi
+  '';
+
+  # Workspace flakes must be copies, not symlinks: nix snapshots path flakes
+  # into the store, so a flake.nix symlink pointing outside the workspace
+  # dir dangles. These wrappers are static -- the real shells live in
+  # nix/{rust,kotlin}-shell.nix and are pulled in via a path input, so
+  # editing those does NOT require re-switching.
+  home.activation.workspaceFlakes = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p "$HOME/workspace/rust" "$HOME/workspace/kotlin"
+    cp -f "${dotfiles}/nix/workspace-rust.nix" "$HOME/workspace/rust/flake.nix"
+    cp -f "${dotfiles}/nix/workspace-kotlin.nix" "$HOME/workspace/kotlin/flake.nix"
   '';
 }
