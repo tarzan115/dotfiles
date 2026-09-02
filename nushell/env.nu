@@ -12,5 +12,6 @@ $env.Path = ($env.Path | prepend '~/.opencode/bin')
 $env.Path = ($env.Path | prepend '/opt/adguardvpn_cli')
 
 source ~/.zoxide.nu
+source ~/.atuin.nu
 
 $env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional

@@ -10,7 +10,6 @@ sort_by     = "natural"
 wrap           = "yes"
 max_width      = 1500
 max_height     = 1500
-image_adaptors = [ "ueberzug" ]
 
 [opener]
 edit = [
@@ -37,7 +36,7 @@ prepend_rules = [
 ]
 
 [tasks]
-image_alloc = 0
+image_alloc = 4294967295
 image_bound = [ 0, 0 ]
 
 [plugin]

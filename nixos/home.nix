@@ -11,38 +11,6 @@ let
   # source of truth (editing there is reflected live).
   link = source: config.lib.file.mkOutOfStoreSymlink source;
 
-  # Placeholder alacritty theme. DMS (matugen) overwrites
-  # ~/.config/alacritty/dank-theme.toml dynamically with the wallpaper
-  # palette, so this only fills the gap before the first DMS run.
-  dankTheme = pkgs.writeText "dank-theme.toml" ''
-    [colors.primary]
-    background = "#132738"
-    foreground = "#ffffff"
-
-    [colors.cursor]
-    text = "#132738"
-    cursor = "#ffffff"
-
-    [colors.normal]
-    black = "#262626"
-    red = "#cc0000"
-    green = "#42b63f"
-    yellow = "#dd9400"
-    blue = "#729fcf"
-    magenta = "#bf78cf"
-    cyan = "#74cd45"
-    white = "#d1b88e"
-
-    [colors.bright]
-    black = "#a79e67"
-    red = "#ef2929"
-    green = "#8ae234"
-    yellow = "#ead96b"
-    blue = "#729fcf"
-    magenta = "#ad7fa8"
-    cyan = "#ead96b"
-    white = "#eeeeec"
-  '';
 in
 {
   home.username = "doanh";
@@ -53,7 +21,7 @@ in
     # ---- shell / terminal ----
     nushell
     zellij
-    alacritty
+    kitty
     foot
     ueberzugpp
     bat
@@ -63,14 +31,16 @@ in
     skim
     starship
     zoxide
+    atuin
     carapace
     fastfetch
     opencode
     rumdl
+    chafa
 
     # ---- editors ----
     helix
-    zed-editor
+    gram
     bash-language-server
     libreoffice-stable
 
@@ -148,8 +118,8 @@ in
     ".config/nushell/config.nu".text = "source ${dotfiles}/nushell/my.nu\n";
     ".config/nushell/env.nu".text = "";
 
-    # ---- alacritty (imports dank-theme.toml, see activation below) ----
-    ".config/alacritty/alacritty.toml".source = link "${dotfiles}/alacritty/alacritty.toml";
+    # ---- kitty ----
+    ".config/kitty/kitty.conf".source = link "${dotfiles}/kitty/kitty.conf";
 
     # ---- helix ----
     ".config/helix/config.toml".source = link "${dotfiles}/helix/config.toml";
@@ -187,15 +157,15 @@ in
       pkgs.runCommand "zoxide-nushell.nu" { } ''
         ${lib.getExe pkgs.zoxide} init nushell > "$out"
       '';
-  };
 
-  # DMS generates dank-theme.toml dynamically; only seed it if missing.
-  home.activation.createDankTheme = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    if [ ! -e "$HOME/.config/alacritty/dank-theme.toml" ]; then
-      mkdir -p "$HOME/.config/alacritty"
-      cp -f ${dankTheme} "$HOME/.config/alacritty/dank-theme.toml"
-    fi
-  '';
+    # ---- atuin nushell init (sourced by nushell/env.nu) ----
+    ".atuin.nu".source =
+      pkgs.runCommand "atuin-nushell.nu" { } ''
+        HOME=$(mktemp -d) ${lib.getExe pkgs.atuin} init nu > "$out"
+        # Fix duplicate keybinding names (atuin uses "atuin" for both Ctrl+R and Up)
+        sed -i '137s/name: atuin/name: atuin-up/' "$out"
+      '';
+  };
 
   # Workspace flakes must be copies, not symlinks: nix snapshots path flakes
   # into the store, so a flake.nix symlink pointing outside the workspace

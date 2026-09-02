@@ -141,7 +141,7 @@ dotfiles/
 │   ├── hardware-configuration.nix  # Hardware-specific (per-machine)
 │   ├── home.nix               # Home Manager user config
 │   └── zellij-config.kdl      # Zellij config
-├── alacritty/                 # Terminal config
+├── kitty/                     # Terminal config
 ├── helix/                     # Editor config
 ├── nushell/                   # Shell config
 ├── starship/                  # Prompt config

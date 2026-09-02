@@ -160,7 +160,7 @@ in
     };
   };
 
-  # Fonts (JetBrains Mono Nerd Font used by alacritty/foot)
+  # Fonts (JetBrains Mono Nerd Font used by kitty/foot)
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
