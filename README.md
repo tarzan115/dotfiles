@@ -66,7 +66,7 @@ Edit these files for your new machine:
 
 **`nixos/flake.nix`** - Update the hostname and user:
 
-- Line 25: Change `caps` path to your username: `path:/home/YOUR_USER/dotfiles/caps`
+- Line 25: Change `kanata` path to your username: `path:/home/YOUR_USER/dotfiles/kanata`
 - Line 31: Change `nixosConfigurations.doanh-nixos` to your desired hostname
 - Line 41: Change `home-manager.users.doanh` to your username
 
@@ -146,7 +146,7 @@ dotfiles/
 ├── nushell/                   # Shell config
 ├── starship/                  # Prompt config
 ├── yazi/                      # File manager config
-├── caps/                      # Git submodule: kanata keyboard remapping
+├── kanata/                    # Kanata keyboard remapping (CapsLock nav)
 └── mango-config/              # Git submodule: MangoWM + DMS fragments
 ```
 

@@ -24,11 +24,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # caps is a git submodule; Nix flakes can't see files inside submodule
-    # gitlinks, so pull it in as a local path input instead. Must be
-    # absolute: relative path inputs resolve against the flake's store copy.
-    caps = {
-      url = "path:/home/doanh/dotfiles/caps";
+    # kanata config folder — pulled in as a path input so configuration.nix
+    # can reference its files in pure evaluation mode. Must be absolute:
+    # relative path inputs resolve against the flake's store copy.
+    kanata = {
+      url = "path:/home/doanh/dotfiles/kanata";
       flake = false;
     };
 

@@ -51,9 +51,9 @@ EOF
 sudo udevadm control --reload-rules && sudo udevadm trigger
 
 mkdir -p ~/.config/kanata
-cp ./caps/kanata/config.kbd ~/.config/kanata/
+cp ./kanata/config.kbd ~/.config/kanata/
 mkdir -p ~/.config/systemd/user
-cp ./caps/kanata/kanata.service ~/.config/systemd/user/
+cp ./kanata/kanata.service ~/.config/systemd/user/
 
 systemctl --user daemon-reload
 systemctl --user enable kanata.service

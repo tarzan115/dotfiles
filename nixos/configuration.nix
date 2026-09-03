@@ -166,11 +166,11 @@ in
   ];
 
   # Keyboard remapping (Colemak + caps-lock navigation) via kanata,
-  # from the caps submodule: caps/kanata/config.kbd
+  # from the kanata config folder: kanata/config.kbd
   services.kanata = {
     enable = true;
     keyboards.doanh = {
-      configFile = "${inputs.caps}/kanata/config.kbd";
+      configFile = "${inputs.kanata}/config.kbd";
     };
   };
 

@@ -1,18 +1,5 @@
 {
   "nodes": {
-    "caps": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1786037142,
-        "narHash": "sha256-ytQzuDlnXjY4RhiF2jRgEXpLq9OMrQm0AwsjU1KPm0g=",
-        "path": "/home/doanh/dotfiles/caps",
-        "type": "path"
-      },
-      "original": {
-        "path": "/home/doanh/dotfiles/caps",
-        "type": "path"
-      }
-    },
     "dank-qml-common": {
       "flake": false,
       "locked": {
@@ -127,6 +114,19 @@
         "type": "github"
       }
     },
+    "kanata": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1788475526,
+        "narHash": "sha256-deHRVRsk+6EQZBIb+M9NaIDwHelNeeuBWOaTbH43CKE=",
+        "path": "/home/doanh/dotfiles/kanata",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/doanh/dotfiles/kanata",
+        "type": "path"
+      }
+    },
     "mangowm": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -198,9 +198,9 @@
     },
     "root": {
       "inputs": {
-        "caps": "caps",
         "dms": "dms",
         "home-manager": "home-manager",
+        "kanata": "kanata",
         "mangowm": "mangowm",
         "nixpkgs": "nixpkgs",
         "nixpkgs-old": "nixpkgs-old",

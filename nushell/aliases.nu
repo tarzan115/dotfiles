@@ -27,7 +27,7 @@ def --wrapped cga [...args] {
 def --env cgn [project_name] {
     cargo new $project_name
     z $project_name
-		hx
+		hx src/main.rs
 }
 
 def cgr [] {

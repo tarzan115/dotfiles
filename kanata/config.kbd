@@ -1,0 +1,121 @@
+;; ===================================================================
+;; Kanata Configuration (from AutoHotkey v2)
+;; Physical Colemak Keyboard on Fedora
+;; ===================================================================
+
+(defcfg
+  linux-dev-names-include (
+    "2.4G Wireless Keyboard"
+    "2.4G Wireless Keyboard System Control"
+    "2.4G Wireless Keyboard Consumer Control"
+    "2.4G Wireless Keyboard"
+    "Logitech USB Receiver Consumer Control"
+    "Logitech USB Receiver"
+  )
+  ;; If a key was pressed within 150ms, tap-hold keys resolve as tap
+  ;; immediately instead of entering the waiting state. Prevents accidental
+  ;; modifier activation when typing fast.
+  tap-hold-require-prior-idle 150
+)
+
+;; -------------------------------------------------------------------
+;; defsrc - The "Physical Truth" Layer (QWERTY)
+;; -------------------------------------------------------------------
+(defsrc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet rctl
+)
+
+;; -------------------------------------------------------------------
+;; defalias - Reusable Shortcuts & Actions
+;; -------------------------------------------------------------------
+(defalias
+  ;; --- Core CapsLock Behavior (now simplified) ---
+  ;; (require-prior-idle 0): keep caps -> nav instant even while typing fast
+  nav (tap-hold 120 120 bspc (layer-while-held navigation) (require-prior-idle 0))
+
+  ;; --- Visual Mode (Selection) ---
+  enter_vis (layer-switch visual)
+  exit_vis (layer-switch colemak)
+  bspc_n_exit_vis (multi (layer-switch colemak) bspc)
+  copy_exit_vis (multi (layer-switch colemak) C-c)
+  paste_exit_vis (multi (layer-switch colemak) C-v)
+
+  ;; --- Double-Press Sequences (hh/oo) ---
+  home-dance (tap-dance 200 (home C-home))
+  end-dance (tap-dance 200 (end C-end))
+  vis-home-dance (tap-dance 200 (S-home S-C-home))
+  vis-end-dance (tap-dance 200 (S-end S-C-end))
+
+  ;; --- 't' Key Speed Modifier ---
+  fast_nav (layer-toggle nav_fast)
+
+  ;; --- Home Row Mods (Colemak: a r s t d h n e i o) ---
+  ;; Tap = letter, hold = modifier (GUI ALT CTRL SHIFT / SHIFT CTRL ALT GUI)
+  ;; tap-hold: a key is only a modifier once held past the hold timeout.
+  ;; Combined with tap-hold-require-prior-idle, fast typing resolves every
+  ;; key as a letter instantly - no stray modifiers, no waiting state.
+  ;; tap-timeout 200ms (double-tap window), hold-timeout 150ms.
+  a-hrm (tap-hold 200 150 a lmet)
+  r-hrm (tap-hold 200 150 r lalt)
+  s-hrm (tap-hold 200 150 s lctl)
+  t-hrm (tap-hold 200 150 t lsft)
+  d-hrm (tap-hold 200 150 d lsft)
+  h-hrm (tap-hold 200 150 h rsft)
+  n-hrm (tap-hold 200 150 n rctl)
+  e-hrm (tap-hold 200 150 e ralt)
+  i-hrm (tap-hold 200 150 i rmet)
+  o-hrm (tap-hold 200 150 o rsft)
+
+  ;; --- Coding Actions ---
+  del-word C-bspc
+  end-semicolon (multi end ;)
+  end-curly-bracket (multi end spc S-{)
+  end-dot (multi end .)
+  end-arrow (multi end spc - S-.)
+  end-equal (multi end spc =)
+  cret C-ret
+)
+
+;; -------------------------------------------------------------------
+;; deflayer - Logical Layers
+;; -------------------------------------------------------------------
+
+;; Base Layer: Colemak
+(deflayer colemak
+  `    1      2      3      4      5      6      7      8      9      0      -    =    bspc
+  tab  q      w      f      p      g      j      l      u      y      ;      [    ]    \
+  @nav @a-hrm @r-hrm @s-hrm @t-hrm @d-hrm @h-hrm @n-hrm @e-hrm @i-hrm @o-hrm '    ret
+  lsft z      x      c      v      b      k      m      ,      .      /      rsft
+  lctl lmet   lalt          spc           ralt   rmet   rctl
+)
+
+;; Navigation Layer (CapsLock Held)
+(deflayer navigation
+  _ _ _ _   _          _         _           _      _    _        _              @end-arrow         @end-equal _
+  _ 4 5 6   _          _         _           C-left up   C-rght   @end-semicolon @end-curly-bracket _          _
+  _ 7 8 9   @fast_nav  @del-word @home-dance left   down rght     @end-dance     _                  @cret
+  _ _ 0 C-c @enter_vis _         _           _      _    @end-dot _              _
+  _ _ _     ret                  _           _      _
+)
+
+;; Visual Mode Layer (Selection Mode)
+(deflayer visual
+  @exit_vis        _ _ _              _               _         _               _        _      _        _              _ _ _
+  _                4 5 6              _               _         _               S-C-left S-up   S-C-rght _              _ _ _
+  @bspc_n_exit_vis 7 8 9              _               @del-word @vis-home-dance S-left   S-down S-rght   @vis-end-dance _ _
+  _                _ 0 @copy_exit_vis @paste_exit_vis _         _               _        _      _        _              _
+  _                _ _                ret                       _               _        _
+)
+
+;; Fast Navigation Sub-Layers (while 't' is held)
+(deflayer nav_fast
+  _ _ _ _ _ _ _ _ _                                _ _ _ _ _
+  _ _ _ _ _ _ _ _ (macro up up up up up)           _ _ _ _ _
+  _ _ _ _ _ _ _ _ (macro down down down down down) _ _ _ _
+  _ _ _ _ _ _ _ _ _                                _ _ _
+  _ _ _                 @cret                      _ _ _
+)
