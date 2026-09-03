@@ -23,7 +23,6 @@ in
     zellij
     kitty
     foot
-    ueberzugpp
     bat
     ripgrep
     fd
@@ -36,7 +35,6 @@ in
     fastfetch
     opencode
     rumdl
-    chafa
 
     # ---- editors ----
     helix
