@@ -591,7 +591,9 @@ pane_frame_style "full"
 // (Requires restart)
 // Default: true (if the host terminal supports it)
 //
-// support_kitty_keyboard_protocol false
+// Enabled (default) mangles Home/End (and some Alt) keys for terminal apps
+// like Helix inside kitty; disable so zellij emits the standard CSI sequences.
+support_kitty_keyboard_protocol false
 
 // Enable or disable support for the Kitty Graphics Protocol, used to display images (the host terminal must also support it)
 // (Requires restart)

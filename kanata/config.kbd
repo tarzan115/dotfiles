@@ -75,6 +75,7 @@
   end-semicolon (multi end ;)
   end-curly-bracket (multi end spc S-{)
   end-dot (multi end .)
+  end-comma (multi end ,)
   end-arrow (multi end spc - S-.)
   end-equal (multi end spc =)
   cret C-ret
@@ -95,10 +96,10 @@
 
 ;; Navigation Layer (CapsLock Held)
 (deflayer navigation
-  _ _ _ _   _          _         _           _      _    _        _              @end-arrow         @end-equal _
-  _ 4 5 6   _          _         _           C-left up   C-rght   @end-semicolon @end-curly-bracket _          _
-  _ 7 8 9   @fast_nav  @del-word @home-dance left   down rght     @end-dance     _                  @cret
-  _ _ 0 C-c @enter_vis _         _           _      _    @end-dot _              _
+  _ _ _ _   _          _         _           _      _          _        _              @end-arrow         @end-equal _
+  _ 4 5 6   _          _         _           C-left up         C-rght   @end-semicolon @end-curly-bracket _          _
+  _ 7 8 9   @fast_nav  @del-word @home-dance left   down       rght     @end-dance     _                  @cret
+  _ _ 0 C-c @enter_vis _         _           _      @end-comma @end-dot _              _
   _ _ _     ret                  _           _      _
 )
 
