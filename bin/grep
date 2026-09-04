@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+# grep -> rg bridge. Falls back to the real grep for anything rg can't do
+# (BRE, --line-buffered, --include-dir, value-taking short flags like -e/-f,
+# -A/-B/-C/-m, ...) or when rg exits with an error.
+set -u
+
+_self="${BASH_SOURCE[0]}"
+if [[ -L "$_self" ]]; then
+    _tgt="$(readlink "$_self")"
+    case "$_tgt" in
+        /*) _self="$_tgt" ;;
+        *) _self="$(cd "$(dirname "$_self")" && pwd)/$_tgt" ;;
+    esac
+fi
+_dir="$(cd "$(dirname "$_self")" && pwd)"
+source "$_dir/_lib.sh"
+
+has_modern rg || run_orig grep "$@"
+
+# Short flags rg shares with grep semantics-for-semantics. Everything else in a
+# bundle makes us fall back (value-taking -e/-f/-A/-B/-C/-m, -G BRE, -z ...).
+_grep_short_ok='alnoqsvwxcHiLhPbc'
+# Flag collisions where rg is fine but the letter means something ELSE there:
+#   -r/-R  recursive  -> rg is recursive by default (drop)
+#   -E     extended   -> rg is ERE by default (drop; rg's -E is --encoding!)
+declare -a _bundle_out
+_short_bundle() {
+    local body="$1" ch i
+    _bundle_out=()
+    for ((i = 0; i < ${#body}; i++)); do
+        ch="${body:i:1}"
+        case "$ch" in
+            r | R | E) continue ;;
+            *) [[ "$_grep_short_ok" == *"$ch"* ]] || return 1 ;;
+        esac
+        _bundle_out+=("-$ch")
+    done
+    return 0
+}
+
+declare -a rg_args=(--color=never)
+fallback=0
+for a in "$@"; do
+    case "$a" in
+        --color) rg_args=() ;; # explicit color request -> ripgrep defaults
+        --color=*)
+            [[ "$a" == --color=never ]] || rg_args=() ;;
+        -r | -R | -E | --extended-regexp)
+            : ;; # no-ops for rg (recursive/ERE is already the default)
+        -r?* | -R?* | -E?*)
+            if _short_bundle "${a#-}"; then
+                rg_args+=("${_bundle_out[@]}")
+            else
+                run_orig grep "$@"
+            fi
+            ;;
+        -G | --basic-regexp | --line-buffered | --binary | --binary=* | \
+        --binary-files | --binary-files=* | --label | --label=* | --mmap | \
+        --include-dir | --include-dir=* | --null-data)
+            fallback=1
+            break
+            ;;
+        --include=*) rg_args+=("-g" "${a#--include=}") ;;
+        --exclude=*) rg_args+=("-g" "!${a#--exclude=}") ;;
+        --exclude-dir=*) rg_args+=("-g" "!${a#--exclude-dir=}/**") ;;
+        *) rg_args+=("$a") ;;
+    esac
+done
+
+if [[ "$fallback" -eq 1 ]]; then
+    run_orig grep "$@"
+fi
+
+rg "${rg_args[@]}"
+rc=$?
+if (( rc == 2 )); then
+    # rg choked (bad flag/regex, etc.) -> let POSIX grep try
+    run_orig grep "$@"
+fi
+exit "$rc"

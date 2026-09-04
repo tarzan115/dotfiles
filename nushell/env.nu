@@ -1,15 +1,19 @@
 $env.config.buffer_editor = "zed"
 $env.config.show_banner = false
 $env.EDITOR = "hx"
-$env.SHELL = $"($nu.home-dir)/.cargo/bin/nu"
 
-source $"($nu.home-dir)/.cargo/env.nu"
+if $nu.os-info.name == "macos" {
+    $env.SHELL = ((which nu).path | first)
+    $env.Path = ($env.Path | prepend '~/.cargo/bin')
+    $env.Path = ($env.Path | prepend '/opt/homebrew/bin')
+    } else {
+    $env.SHELL = $"($nu.home-dir)/.cargo/bin/nu"
+    source $"($nu.home-dir)/.cargo/env.nu"
+    $env.Path = ($env.Path | prepend '/opt/adguardvpn_cli')
+}
 
-# $env.PATH = $env.PATH + ":~/.local/bin"
 $env.Path = ($env.Path | prepend '~/.local/bin')
-$env.Path = ($env.Path | prepend '~/Documents/RustRover-2026.1.1/bin')
 $env.Path = ($env.Path | prepend '~/.opencode/bin')
-$env.Path = ($env.Path | prepend '/opt/adguardvpn_cli')
 
 source ~/.zoxide.nu
 source ~/.atuin.nu

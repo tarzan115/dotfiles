@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# cat -> bat bridge. Forces plain, unpaged, unwrapped output so it behaves
+# like cat (no decorations, no pager, no color) while still being bat. Falls
+# back to the real cat for flags bat can't map 1:1.
+set -u
+
+_self="${BASH_SOURCE[0]}"
+if [[ -L "$_self" ]]; then
+    _tgt="$(readlink "$_self")"
+    case "$_tgt" in
+        /*) _self="$_tgt" ;;
+        *) _self="$(cd "$(dirname "$_self")" && pwd)/$_tgt" ;;
+    esac
+fi
+_dir="$(cd "$(dirname "$_self")" && pwd)"
+source "$_dir/_lib.sh"
+
+has_modern bat || run_orig cat "$@"
+
+case " $* " in
+    *" -- "*) run_orig cat "$@" ;; # literal filenames after --; don't second-guess
+esac
+
+declare -a bat_args=()
+for a in "$@"; do
+    case "$a" in
+        -n) bat_args+=(--number) ;;
+        -b) bat_args+=(--number-nonblank) ;;
+        -A | -v | -s | -T | -E | -e) run_orig cat "$@" ;; # byte semantics / can't map 1:1 -> real cat
+        *) bat_args+=("$a") ;;
+    esac
+done
+
+exec bat --paging=never --style=plain --wrap=never --color=never "${bat_args[@]}"

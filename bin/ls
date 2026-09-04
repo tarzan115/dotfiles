@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# ls -> eza bridge. Forces --color=never so piped/captured output stays plain.
+# Falls back to the real ls when a flag's semantics differ (width, dereference,
+# quoting, BSD -G color, block-size, -p indicator).
+set -u
+
+_self="${BASH_SOURCE[0]}"
+if [[ -L "$_self" ]]; then
+    _tgt="$(readlink "$_self")"
+    case "$_tgt" in
+        /*) _self="$_tgt" ;;
+        *) _self="$(cd "$(dirname "$_self")" && pwd)/$_tgt" ;;
+    esac
+fi
+_dir="$(cd "$(dirname "$_self")" && pwd)"
+source "$_dir/_lib.sh"
+
+has_modern eza || run_orig ls "$@"
+
+color=(--color=never)
+for a in "$@"; do
+    case "$a" in
+        -w | -w* | --width | --width=* | -L | -L* | --dereference | \
+        --block-size | --block-size=* | --quoting-style | --quoting-style=* | \
+        --full-time | -p | -p* | -Q | -G | -G*)
+            run_orig ls "$@"
+            ;;
+        --color | --color=*) color=() ;; # explicit request -> eza defaults
+    esac
+done
+
+exec eza "${color[@]}" "${@}"

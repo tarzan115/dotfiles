@@ -1,6 +1,6 @@
 ;; ===================================================================
 ;; Kanata Configuration (from AutoHotkey v2)
-;; Physical Colemak Keyboard on Fedora
+;; Physical Colemak Keyboard (Linux/macOS)
 ;; ===================================================================
 
 (defcfg

@@ -24,6 +24,7 @@ in
     kitty
     foot
     bat
+    eza
     ripgrep
     fd
     fzf
@@ -35,6 +36,7 @@ in
     fastfetch
     opencode
     rumdl
+    gitui
 
     # ---- editors ----
     helix
@@ -163,7 +165,26 @@ in
         # Fix duplicate keybinding names (atuin uses "atuin" for both Ctrl+R and Up)
         sed -i '137s/name: atuin/name: atuin-up/' "$out"
       '';
+
+    # ---- global AI-tool rules: one source of truth (repo AGENTS.md),
+    #      shared by every agent CLI that reads a global rules file ----
+    "AGENTS.md".source = link "${dotfiles}/AGENTS.md"; # emerging home-dir convention
+    ".config/opencode/AGENTS.md".source = link "${dotfiles}/AGENTS.md";
+    ".claude/CLAUDE.md".source = link "${dotfiles}/AGENTS.md";
+    ".codex/AGENTS.md".source = link "${dotfiles}/AGENTS.md";
+
+    # ---- modern-tool wrappers: shadow classic names on PATH so even a
+    #      plain `grep`/`find`/`cat`/`ls` lands on rg/fd/bat/eza (with
+    #      automatic fallback to the original for incompatible flags) ----
+    ".local/bin/grep".source = link "${dotfiles}/bin/grep";
+    ".local/bin/find".source = link "${dotfiles}/bin/find";
+    ".local/bin/cat".source = link "${dotfiles}/bin/cat";
+    ".local/bin/ls".source = link "${dotfiles}/bin/ls";
   };
+
+  # Make the wrapper dir available to login shells too; nushell env.nu already
+  # prepends ~/.local/bin for interactive sessions.
+  home.sessionPath = [ "$HOME/.local/bin" ];
 
   # Workspace flakes must be copies, not symlinks: nix snapshots path flakes
   # into the store, so a flake.nix symlink pointing outside the workspace

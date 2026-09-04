@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# find -> fd bridge. Translates the common safe subset (-type, -maxdepth,
+# -mindepth, -name, -iname, -L); anything else falls back to the real find.
+set -u
+
+_self="${BASH_SOURCE[0]}"
+if [[ -L "$_self" ]]; then
+    _tgt="$(readlink "$_self")"
+    case "$_tgt" in
+        /*) _self="$_tgt" ;;
+        *) _self="$(cd "$(dirname "$_self")" && pwd)/$_tgt" ;;
+    esac
+fi
+_dir="$(cd "$(dirname "$_self")" && pwd)"
+source "$_dir/_lib.sh"
+
+has_modern fd || run_orig find "$@"
+
+_orig=("$@")
+
+declare -a fd_args=(--color=never) paths=() globs=()
+while (($#)); do
+    case "$1" in
+        -type)
+            # fd only knows f/d/l for --type
+            case "${2:-}" in
+                f | d | l) fd_args+=(--type "$2") && shift 2 ;;
+                *) run_orig find "${_orig[@]}" ;;
+            esac
+            ;;
+        -name) globs+=(--glob "${2:?}") && shift 2 ;;
+        -iname) globs+=(-i --glob "${2:?}") && shift 2 ;;
+        -maxdepth) fd_args+=(--max-depth "${2:?}") && shift 2 ;;
+        -mindepth) fd_args+=(--min-depth "${2:?}") && shift 2 ;;
+        -L) fd_args+=(--follow) && shift ;;
+        -H | -P) fd_args+=("$1") && shift ;;
+        -print0 | -0) fd_args+=(-0) && shift ;;
+        -*) run_orig find "${_orig[@]}" ;; # anything find-specific -> real find
+        *) paths+=("$1") && shift ;;
+    esac
+done
+
+if ((${#globs[@]})); then
+    exec fd "${fd_args[@]}" "${globs[@]}" "${paths[@]}"
+else
+    # bare `find [PATH]` == "list everything under PATH"
+    exec fd "${fd_args[@]}" '.' "${paths[@]}"
+fi

@@ -131,6 +131,35 @@ sudo nixos-rebuild switch --flake ~/dotfiles/nixos
 - **User packages**: Edit `nixos/home.nix` (line 52-99)
 - **New NixOS module**: Add flake input in `nixos/flake.nix`, register in `modules` list
 
+## macOS Setup
+
+The repo works on macOS too — most configs are cross-platform (`kitty`, `helix`,
+`starship`, `yazi`, `zellij`, `cargo`, `topgrade.toml`). The nushell config
+switches paths and package-manager helpers on `$nu.os-info.name`, so the same
+files are used on both systems.
+
+Run the bootstrap script on your Mac once (installs Homebrew + tools, wires up
+configs, and loads kanata as a LaunchAgent):
+
+```bash
+./init-macos.sh
+```
+
+NixOS installs never run this — a fresh NixOS setup is purely declarative
+(`nixos-install --flake ~/dotfiles/nixos`), so `init-macos.sh` is macOS-only.
+
+Notes:
+
+- `nixos/`, `mango-config/`, and `tuigreet/` are NixOS/Linux-only and are not
+  used on macOS.
+- `topgrade.toml` is NixOS-specific (flake update + rebuild), so it is not
+  installed on macOS — topgrade auto-generates its own config there (brew).
+- Kanata runs via `kanata/kanata.plist` (LaunchAgent) on macOS; on NixOS it runs
+  via `services.kanata`. The NixOS kanata module only reads `config.kbd`, so the
+  plist is harmless there.
+- `config.kbd`'s `linux-dev-names-include` block is Linux-only and ignored by
+  kanata on macOS.
+
 ## Directory Structure
 
 ```

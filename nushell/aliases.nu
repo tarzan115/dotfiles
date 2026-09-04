@@ -3,14 +3,10 @@ alias cgi = cargo binstall -y
 alias cgs = cargo search
 alias cgt = cargo test
 alias cgx = cargo expand
-alias di = sudo dnf install -y
-alias drm = sudo dnf remove -y
-alias ds = dnf search
 alias icgs = cargo binstall -y
-alias ids = sudo dnf install -y
 alias ll = ls -la
 alias lstr = lstr --icons --color always
-alias rr = rustrover
+
 alias tg = topgrade -y --no-retry
 
 # aliases as a function
@@ -44,3 +40,15 @@ def --env y [...args] {
 	}
 	rm -fp $tmp
 }
+
+# brew helpers (macOS only; NixOS packages are declarative via home.nix)
+def brew-only [] {
+    if $nu.os-info.name != "macos" {
+        error make { msg: "brew helpers are macOS-only — manage packages via home.nix on NixOS" }
+    }
+}
+
+def --wrapped bi [...pkgs] { brew-only; ^brew install ...$pkgs }
+def --wrapped brm [...pkgs] { brew-only; ^brew uninstall ...$pkgs }
+def --wrapped bs [...pkgs] { brew-only; ^brew search ...$pkgs }
+def bup [] { brew-only; ^brew update; ^brew upgrade }
