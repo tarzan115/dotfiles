@@ -29,11 +29,15 @@ if ! command -v brew >/dev/null 2>&1; then
 fi
 
 # ---- tools ----
-brew install nushell starship zellij kitty helix fzf cmake bash-language-server \
+for pkg in nushell starship zellij kitty helix fzf cmake bash-language-server \
   carapace fastfetch bat eza ripgrep fd zoxide atuin topgrade yazi \
-  cargo-binstall cargo-expand cargo-update sccache git-delta
+  cargo-binstall cargo-expand cargo-update sccache git-delta; do
+  brew list "$pkg" &>/dev/null || brew install "$pkg"
+done
 
-brew install --cask font-jetbrains-mono-nerd-font gram
+for cask in font-jetbrains-mono-nerd-font gram; do
+  brew list --cask "$cask" &>/dev/null || brew install --cask "$cask"
+done
 
 # ---- rust + kanata ----
 if ! command -v rustup >/dev/null 2>&1; then
