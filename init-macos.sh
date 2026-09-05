@@ -29,13 +29,16 @@ if ! command -v brew >/dev/null 2>&1; then
 fi
 
 # ---- tools ----
-for pkg in nushell starship zellij kitty helix fzf cmake bash-language-server \
+brew install nushell starship zellij kitty helix fzf cmake bash-language-server \
   carapace fastfetch bat eza ripgrep fd zoxide atuin topgrade yazi \
-  cargo-binstall cargo-expand cargo-update sccache git-delta; do
-  brew list "$pkg" &>/dev/null || brew install "$pkg"
-done
+  cargo-binstall cargo-expand cargo-update sccache git-delta
 
 for cask in font-jetbrains-mono-nerd-font gram; do
+  if [[ "$cask" == "font-jetbrains-mono-nerd-font" ]] && \
+     compgen -G "$HOME/Library/Fonts/*JetBrainsMonoNerdFont*.ttf" >/dev/null; then
+    echo "font-jetbrains-mono-nerd-font already installed (font file present); skipping"
+    continue
+  fi
   brew list --cask "$cask" &>/dev/null || brew install --cask "$cask"
 done
 
