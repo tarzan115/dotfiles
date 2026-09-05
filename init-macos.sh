@@ -4,6 +4,13 @@
 # installs (nixos-install --flake ~/dotfiles/nixos handles everything there).
 set -euo pipefail
 
+# Verbose tracing: log each command before running it so we can see where it fails.
+PS4='+ [${BASH_SOURCE}:${LINENO}] '
+set -x
+
+# On any error, report exactly which line failed before exiting.
+trap 'rc=$?; echo "[init-macos] ERROR: command failed with exit code $rc at line $LINENO" >&2' ERR
+
 # macOS-only guard
 case "$(uname -s)" in
   Darwin) ;;
