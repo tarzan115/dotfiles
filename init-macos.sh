@@ -28,10 +28,11 @@ if ! command -v brew >/dev/null 2>&1; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-# ---- tools ----
-brew install nushell starship zellij kitty helix fzf cmake bash-language-server \
-  carapace fastfetch bat eza ripgrep fd zoxide atuin topgrade yazi \
-  cargo-binstall cargo-expand cargo-update sccache git-delta
+# ---- tools: Homebrew for non-Rust only ----
+# helix stays in brew: its crates.io package omits [[bin]] metadata, so
+# cargo-binstall can't infer the `hx` binary. cargo-binstall is the bootstrap
+# for the binstall step below.
+brew install kitty fzf cmake bash-language-server fastfetch helix cargo-binstall
 
 for cask in font-jetbrains-mono-nerd-font gram; do
   if [[ "$cask" == "font-jetbrains-mono-nerd-font" ]] && \
@@ -42,11 +43,20 @@ for cask in font-jetbrains-mono-nerd-font gram; do
   brew list --cask "$cask" &>/dev/null || brew install --cask "$cask"
 done
 
-# ---- rust + kanata ----
+# ---- rust toolchain (rustup) ----
 if ! command -v rustup >/dev/null 2>&1; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 fi
-cargo binstall -y kanata
+# rustup only edits login-shell RC files; expose ~/.cargo/bin in this script
+# (also fixes `cargo binstall` below and `which nu` at the end).
+# shellcheck disable=SC1091
+source "$HOME/.cargo/env"
+
+# ---- Rust CLI tools via cargo-binstall (prebuilt binaries), not brew ----
+# Mirrors the rust-toolchain block in nixos/home.nix; keeps the brew list small.
+cargo binstall -y \
+  nu starship zellij carapace bat eza ripgrep fd-find zoxide atuin \
+  topgrade yazi-fm sccache cargo-expand cargo-update git-delta kanata
 
 # ---- nushell: use the repo's my.nu as the real config ----
 mkdir -p "$CONFIG_DIR/nushell"
