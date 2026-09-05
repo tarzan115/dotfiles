@@ -17,7 +17,7 @@ to the original when flags don't overlap.
 | `cd` history (repeated paths) | `z` / `zoxide`          | `z <fragment>` jumps to a known directory |
 | `less` / paging files        | `bat --paging=always`    | Keep paging off unless explicitly asked |
 | `which`                      | `command -v`             | Avoid: `which` can return non-executable aliases in some shells |
-| fuzzy text selection         | `fzf`                    | Use for pickers/choosers |
+| fuzzy text selection         | `sk` (skim)              | Use for pickers/choosers |
 | visual file browsing         | `yazi`                   | TUI file manager |
 
 ## Rules

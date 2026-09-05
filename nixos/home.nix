@@ -27,7 +27,6 @@ in
     eza
     ripgrep
     fd
-    fzf
     skim
     starship
     zoxide
