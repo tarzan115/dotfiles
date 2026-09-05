@@ -250,6 +250,14 @@ in
   # Enable nix-command and flakes so `nix run`, `nix shell`, etc. work
   # without passing --extra-experimental-features every time.
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  # Automatic garbage collection: drop unreferenced store paths weekly and
+  # prune old system generations. Free disk space without manual
+  # `nix-collect-garbage` runs.
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 14d";
+  };
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

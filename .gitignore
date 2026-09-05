@@ -1,1 +1,5 @@
 mango-config
+
+# nixos-rebuild result symlink into /nix/store (build artifact, dangles after GC)
+result
+nixos/result

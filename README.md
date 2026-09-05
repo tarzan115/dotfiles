@@ -68,6 +68,7 @@ Edit these files for your new machine:
 
 - Line 25: Change `kanata` path to your username: `path:/home/YOUR_USER/dotfiles/kanata`
 - Line 31: Change `nixosConfigurations.doanh-nixos` to your desired hostname
+- Line 38: Change `tuigreet-config` path to your username: `path:/home/YOUR_USER/dotfiles/tuigreet`
 - Line 41: Change `home-manager.users.doanh` to your username
 
 **`nixos/configuration.nix`** - Update system settings:
@@ -114,6 +115,22 @@ After reboot, verify everything works:
 ```bash
 nixos-rebuild switch --flake ~/dotfiles/nixos
 ```
+
+### 10. One-time post-install steps
+
+- **yazi plugins/flavors** are gitignored (installed via the package manager), so
+  restore them once:
+
+  ```bash
+  cd ~/.config/yazi && ya pack -i
+  ```
+
+- **SSH key** — push/pull to GitHub over SSH (`git@github.com`) needs a key:
+  `ssh-keygen -t ed25519` then add the public key to your GitHub account.
+- **GPG key** — `gnupg` is installed for `antigravity-cli`/adguard setup; import
+  or generate your key if you rely on it.
+- **automatic GC** is already enabled in `configuration.nix` (weekly, keeps 14d),
+  so no manual `nix-collect-garbage` is required.
 
 ## Updating the System
 
@@ -168,14 +185,19 @@ dotfiles/
 │   ├── flake.nix              # Flake entry point
 │   ├── configuration.nix      # System configuration
 │   ├── hardware-configuration.nix  # Hardware-specific (per-machine)
-│   ├── home.nix               # Home Manager user config
-│   └── zellij-config.kdl      # Zellij config
+│   └── home.nix               # Home Manager user config
+├── nix/                       # Dev-shell definitions (rust, kotlin) + workspace flakes
+├── bin/                       # Modern-tool PATH wrappers (rg/fd/bat/eza)
+├── nushell/                   # Shell config
+├── zellij/                    # Zellij config
 ├── kitty/                     # Terminal config
 ├── helix/                     # Editor config
-├── nushell/                   # Shell config
 ├── starship/                  # Prompt config
-├── yazi/                      # File manager config
+├── yazi/                      # File manager config (plugins/flavors via `ya pack -i`)
 ├── kanata/                    # Kanata keyboard remapping (CapsLock nav)
+├── tuigreet/                  # Login greeter (tuigreet) config
+├── cargo/                     # Cargo config (sccache wrapper)
+├── topgrade.toml              # Topgrade: flake update + rebuild
 └── mango-config/              # Git submodule: MangoWM + DMS fragments
 ```
 
