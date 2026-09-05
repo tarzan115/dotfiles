@@ -72,7 +72,7 @@ in
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  # User-level packages (zed, rust, yazi, ...) are managed by
+  # User-level packages (gram, rust, yazi, ...) are managed by
   # home-manager in ./home.nix.
   environment.systemPackages = with pkgs; [
      git

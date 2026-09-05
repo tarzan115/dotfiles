@@ -1,4 +1,4 @@
-$env.config.buffer_editor = "zed"
+$env.config.buffer_editor = "gram"
 $env.config.show_banner = false
 $env.EDITOR = "hx"
 

@@ -33,7 +33,7 @@ brew install nushell starship zellij kitty helix fzf cmake bash-language-server 
   carapace fastfetch bat eza ripgrep fd zoxide atuin topgrade yazi \
   cargo-binstall cargo-expand cargo-update sccache git-delta
 
-brew install --cask font-jetbrainsmono-nerd-font zed
+brew install --cask font-jetbrains-mono-nerd-font gram
 
 # ---- rust + kanata ----
 if ! command -v rustup >/dev/null 2>&1; then
