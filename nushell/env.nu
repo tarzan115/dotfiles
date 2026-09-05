@@ -8,7 +8,6 @@ if $nu.os-info.name == "macos" {
     $env.Path = ($env.Path | prepend '/opt/homebrew/bin')
     } else {
     $env.SHELL = $"($nu.home-dir)/.cargo/bin/nu"
-    source $"($nu.home-dir)/.cargo/env.nu"
     $env.Path = ($env.Path | prepend '/opt/adguardvpn_cli')
 }
 

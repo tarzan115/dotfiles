@@ -3,6 +3,7 @@ alias cgi = cargo binstall -y
 alias cgs = cargo search
 alias cgt = cargo test
 alias cgx = cargo expand
+alias gg = gitui
 alias icgs = cargo binstall -y
 alias ll = ls -la
 alias lstr = lstr --icons --color always

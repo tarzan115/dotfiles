@@ -149,7 +149,6 @@ in
 
     # ---- shims so dotfiles referencing ~/.cargo keep working on NixOS ----
     ".cargo/bin/nu".source = link "${pkgs.nushell}/bin/nu";
-    ".cargo/env.nu".text = "";
     ".cargo/config.toml".source = link "${dotfiles}/cargo/config.toml";
 
     # ---- zoxide nushell init (sourced by nushell/env.nu) ----
