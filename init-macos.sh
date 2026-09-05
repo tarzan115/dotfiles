@@ -65,9 +65,13 @@ cargo binstall -y \
   cargo-expand cargo-update sccache git-delta kanata skim
 
 # ---- nushell: use the repo's my.nu as the real config ----
-mkdir -p "$CONFIG_DIR/nushell" "$HOME/Library/Caches/nushell"
-printf 'source %s/nushell/my.nu\n' "$DOTFILES" > "$CONFIG_DIR/nushell/config.nu"
-: > "$CONFIG_DIR/nushell/env.nu"
+# On macOS (XDG_CONFIG_HOME unset) nu reads config from
+# ~/Library/Application Support/nushell, NOT ~/.config — resolve the real
+# directory via nu itself. Mirrors home.nix:117-118 on NixOS.
+NU_CONFIG_DIR="$(nu --no-config-file -c '$nu.default-config-dir')"
+mkdir -p "$NU_CONFIG_DIR" "$HOME/Library/Caches/nushell"
+printf 'source %s/nushell/my.nu\n' "$DOTFILES" > "$NU_CONFIG_DIR/config.nu"
+: > "$NU_CONFIG_DIR/env.nu"
 
 # generated init files (guarded by config.nu/env.nu, so a missing one won't break startup)
 starship init nu | nu --no-config-file --stdin -c 'save -f ($nu.home-dir | path join ".config" "starship.nu")'
