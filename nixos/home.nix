@@ -47,11 +47,14 @@ in
     firefox
 
     # ---- rust toolchain & cargo helpers ----
-    cargo
-    rustc
-    rustfmt
-    clippy
-    rust-analyzer
+    (pkgs.fenix.stable.withComponents [
+      "cargo"
+      "clippy"
+      "rust-src"
+      "rustc"
+      "rustfmt"
+    ])
+    pkgs.fenix.stable.rust-analyzer
     lldb
     cargo-expand
     cargo-binstall

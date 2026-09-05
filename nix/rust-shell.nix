@@ -5,12 +5,9 @@
 
 pkgs.mkShell {
   buildInputs = with pkgs; [
-    # Rust toolchain
-    cargo
-    rustc
-    rustfmt
-    clippy
-    rust-analyzer
+    # Rust toolchain (fenix stable)
+    fenix.stable.toolchain
+    fenix.stable.rust-analyzer
     cargo-expand
 
     # Build dependencies

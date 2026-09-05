@@ -150,6 +150,8 @@ in
       xdg-desktop-portal-wlr =
         inputs.nixpkgs-old.legacyPackages.${prev.stdenv.hostPlatform.system}.xdg-desktop-portal-wlr;
     })
+    # Provides pkgs.fenix with the exact nixpkgs revision this system uses.
+    inputs.fenix.overlays.default
   ];
 
   # Skip the wlr portal's picker entirely: "none" makes xdwim 0.7.x

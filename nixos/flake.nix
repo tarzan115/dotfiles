@@ -24,6 +24,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Fresh Rust toolchains pulled straight from the rustup dist manifests,
+    # tracking releases the same day they ship (nixpkgs lags ~2 behind).
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # kanata config folder — pulled in as a path input so configuration.nix
     # can reference its files in pure evaluation mode. Must be absolute:
     # relative path inputs resolve against the flake's store copy.
