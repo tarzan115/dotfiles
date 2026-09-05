@@ -52,6 +52,10 @@ fi
 # shellcheck disable=SC1091
 source "$HOME/.cargo/env"
 
+# Update the Rust toolchain (matches nixpkgs-unstable on NixOS; a no-op on a
+# fresh install, and keeps stale toolchains fresh on re-runs).
+rustup update stable
+
 # ---- Rust CLI tools via cargo-binstall (prebuilt binaries), not brew ----
 # Mirrors the rust-toolchain block in nixos/home.nix; keeps the brew list small.
 cargo binstall -y \
