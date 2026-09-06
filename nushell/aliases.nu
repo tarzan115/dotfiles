@@ -7,6 +7,8 @@ alias gg = gitui
 alias icgs = cargo binstall -y
 alias ll = ls -la
 alias lstr = lstr --icons --color always
+alias nd = nix develop
+alias nn = nix develop
 
 alias tg = topgrade -y --no-retry
 
