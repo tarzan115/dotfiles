@@ -8,7 +8,6 @@
     "2.4G Wireless Keyboard"
     "2.4G Wireless Keyboard System Control"
     "2.4G Wireless Keyboard Consumer Control"
-    "2.4G Wireless Keyboard"
     "Logitech USB Receiver Consumer Control"
     "Logitech USB Receiver"
   )
@@ -22,11 +21,11 @@
 ;; defsrc - The "Physical Truth" Layer (QWERTY)
 ;; -------------------------------------------------------------------
 (defsrc
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-  caps a    s    d    f    g    h    j    k    l    ;    '    ret
-  lsft z    x    c    v    b    n    m    ,    .    /    rsft
-  lctl lmet lalt           spc            ralt rmet rctl
+  grv              1      2      3              4               5         6               7        8                                9        0              -                  =          bspc
+  tab              q      w      e              r               t         y               u        i                                o        p              [                  ]          \
+  caps             a      s      d              f               g         h               j        k                                l        ;              '                  ret
+  lsft             z      x      c              v               b         n               m        ,                                .        /              rsft
+  lctl             lmet   lalt   spc            ralt            rmet      rctl
 )
 
 ;; -------------------------------------------------------------------
@@ -50,7 +49,7 @@
   vis-home-dance (tap-dance 200 (S-home S-C-home))
   vis-end-dance (tap-dance 200 (S-end S-C-end))
 
-  ;; --- 't' Key Speed Modifier ---
+  ;; --- Fast Navigation Toggle ---
   fast_nav (layer-toggle nav_fast)
 
   ;; --- Home Row Mods (Colemak: a r s t d h n e i o) ---
@@ -78,7 +77,7 @@
   end-comma (multi end ,)
   end-arrow (multi end spc - S-.)
   end-equal (multi end spc =)
-  cret C-ret
+  end-ret (multi end ret)
 )
 
 ;; -------------------------------------------------------------------
@@ -87,36 +86,36 @@
 
 ;; Base Layer: Colemak
 (deflayer colemak
-  `    1      2      3      4      5      6      7      8      9      0      -    =    bspc
-  tab  q      w      f      p      g      j      l      u      y      ;      [    ]    \
-  @nav @a-hrm @r-hrm @s-hrm @t-hrm @d-hrm @h-hrm @n-hrm @e-hrm @i-hrm @o-hrm '    ret
-  lsft z      x      c      v      b      k      m      ,      .      /      rsft
-  lctl lmet   lalt          spc           ralt   rmet   rctl
+  `                1      2      3              4               5         6               7        8                                9        0              -                  =          bspc
+  tab              q      w      f              p               g         j               l        u                                y        ;              [                  ]          \
+  @nav             @a-hrm @r-hrm @s-hrm         @t-hrm          @d-hrm    @h-hrm          @n-hrm   @e-hrm                           @i-hrm   @o-hrm         '                  ret
+  lsft             z      x      c              v               b         k               m        ,                                .        /              rsft
+  lctl             lmet   lalt   spc            ralt            rmet      rctl
 )
 
 ;; Navigation Layer (CapsLock Held)
 (deflayer navigation
-  _ _ _ _   _          _         _           _      _          _        _              @end-arrow         @end-equal _
-  _ 4 5 6   _          _         _           C-left up         C-rght   @end-semicolon @end-curly-bracket _          _
-  _ 7 8 9   @fast_nav  @del-word @home-dance left   down       rght     @end-dance     _                  @cret
-  _ _ 0 C-c @enter_vis _         _           _      @end-comma @end-dot _              _
-  _ _ _     ret                  _           _      _
+  _                _      _      _              _               _         _               _        _                                _        _              @end-arrow         @end-equal _
+  _                4      5      6              _               _         _               C-left   up                               C-rght   @end-semicolon @end-curly-bracket _          _
+  _                7      8      9              @fast_nav       @del-word @home-dance     left     down                             rght     @end-dance     _                  @end-ret
+  _                _      0      C-c            @enter_vis      _         _               _        @end-comma                       @end-dot _              _
+  _                _      _      ret            _               _         _
 )
 
 ;; Visual Mode Layer (Selection Mode)
 (deflayer visual
-  @exit_vis        _ _ _              _               _         _               _        _      _        _              _ _ _
-  _                4 5 6              _               _         _               S-C-left S-up   S-C-rght _              _ _ _
-  @bspc_n_exit_vis 7 8 9              _               @del-word @vis-home-dance S-left   S-down S-rght   @vis-end-dance _ _
-  _                _ 0 @copy_exit_vis @paste_exit_vis _         _               _        _      _        _              _
-  _                _ _                ret                       _               _        _
+  @exit_vis        _      _      _              _               _         _               _        _                                _        _              _                  _          _
+  _                4      5      6              _               _         _               S-C-left S-up                             S-C-rght _              _                  _          _
+  @bspc_n_exit_vis 7      8      9              _               @del-word @vis-home-dance S-left   S-down                           S-rght   @vis-end-dance _                  _
+  _                _      0      @copy_exit_vis @paste_exit_vis _         _               _        _                                _        _              _
+  _                _      _      ret            _               _         _
 )
 
-;; Fast Navigation Sub-Layers (while 't' is held)
+;; Fast Navigation Sub-Layer (toggled via @fast_nav in nav layer)
 (deflayer nav_fast
-  _ _ _ _ _ _ _ _ _                                _ _ _ _ _
-  _ _ _ _ _ _ _ _ (macro up up up up up)           _ _ _ _ _
-  _ _ _ _ _ _ _ _ (macro down down down down down) _ _ _ _
-  _ _ _ _ _ _ _ _ _                                _ _ _
-  _ _ _                 @cret                      _ _ _
+  _                _      _      _              _               _         _               _        _                                _        _              _                  _          _
+  _                _      _      _              _               _         _               _        (macro up up up up up)           _        _              _                  _          _
+  _                _      _      _              _               _         _               _        (macro down down down down down) _        _              _                  _
+  _                _      _      _              _               _         _               _        _                                _        _              _
+  _                _      _      @end-ret       _               _         _
 )
