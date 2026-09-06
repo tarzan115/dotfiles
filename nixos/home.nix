@@ -36,6 +36,7 @@ in
     opencode
     rumdl
     gitui
+    pik
 
     # ---- editors ----
     helix
@@ -81,7 +82,6 @@ in
     kooha # portal-based screen recorder; tests the ScreenCast pipeline
 
     # ---- misc ----
-    mangohud
   ];
 
   programs.git = {
