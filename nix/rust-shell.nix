@@ -26,7 +26,6 @@ pkgs.mkShell {
     echo "Rust development environment loaded"
     echo "Cargo: $(cargo --version)"
     echo "Rustc: $(rustc --version)"
-    echo "LIVE-EDIT-TEST"
     exec nu
   '';
 }
