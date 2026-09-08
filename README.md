@@ -177,10 +177,62 @@ Notes:
 - `config.kbd`'s `linux-dev-names-include` block is Linux-only and ignored by
   kanata on macOS.
 
+## Windows Setup
+
+The repo works on Windows too — the portable configs (`helix`, `starship`,
+`yazi`, `zellij`, `cargo`, `nushell`, `kanata`, `topgrade`) are used, and the
+nushell config branches on `$nu.os-info.name` so the same files run everywhere.
+
+Run the bootstrap script on your Windows machine once (installs tools, wires up
+configs by copying them to `%APPDATA%`, and registers kanata to autostart on
+login):
+
+```powershell
+pwsh ./setup-windows.ps1
+```
+
+Requirements:
+
+- Windows 10/11 with `winget` (App Installer)
+- PowerShell 7+ (`winget install --id Microsoft.PowerShell`)
+
+Tools are installed the same way as on macOS: **winget** for non-Rust tools
+(`pwsh`, Windows Terminal, `git`, `rustup`, `helix`, `carapace`) and
+**cargo-binstall** for the Rust CLI tools (`nu`, `starship`, `zellij`, `yazi`,
+`bat`, `eza`, `ripgrep`, `fd`, `zoxide`, `atuin`, `topgrade`, `delta`, `skim`,
+`sccache`, `kanata`).
+
+Notes:
+
+- **kitty is not supported on native Windows** — it's Linux/macOS-only (the
+  maintainer confirms "kitty doesnt run on windows"; official install covers
+  Linux/macOS/BSD only). Use Windows Terminal for the native nushell session.
+  Inside WSL2 you can still use kitty with the repo config
+  (`ln -s ~/dotfiles/kitty/kitty.conf ~/.config/kitty/kitty.conf`).
+- **topgrade** runs on Windows too (it upgrades winget + PowerShell modules).
+  The script installs it, and Windows/macOS auto-generate their own topgrade
+  config (`%APPDATA%\topgrade.toml`); only the repo's `topgrade.toml` (which
+  encodes `nix flake update` + `nixos-rebuild`) is NixOS-only and skipped.
+- `nixos/`, `mango-config/`, `tuigreet/`, and `nix/` are NixOS/Linux-only and
+  are not used on Windows.
+- `bin/` (the `grep`→`rg` etc. bash wrappers) are bash scripts and only run
+  under Git Bash/WSL, so the Windows setup skips them — the underlying tools
+  (`rg`, `fd`, `bat`, `eza`) are installed directly instead.
+- Configs are **copied**, not symlinked — the repo stays the source of truth
+  on Linux/macOS, but Windows copies so no admin/Developer Mode is needed to
+  keep them alive. Re-run the script after updating the repo.
+- `setup-windows.ps1` writes a Windows kanata config with the Linux-only
+  `linux-dev-names-include` block stripped and `windows-altgr` added. It uses
+  the LLHOOK backend (`kanata.exe`) which needs no driver; for the lower-level
+  Interception backend, install the Interception driver and run
+  `kanata_wintercept.exe` instead.
+
 ## Directory Structure
 
 ```
 dotfiles/
+├── init-macos.sh                # macOS bootstrap (brew + symlinks + kanata LaunchAgent)
+├── setup-windows.ps1            # Windows bootstrap (winget + cargo-binstall + kanata Run key)
 ├── nixos/
 │   ├── flake.nix              # Flake entry point
 │   ├── configuration.nix      # System configuration
