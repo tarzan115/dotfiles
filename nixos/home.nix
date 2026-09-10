@@ -133,6 +133,9 @@ in
     # ---- mango (whole mango-config submodule: compositor + dms fragments) ----
     ".config/mango".source = link "${dotfiles}/mango-config";
 
+    # ---- DankMaterialShell (shell settings, plugins, generated files) ----
+    ".config/DankMaterialShell".source = link "${dotfiles}/DankMaterialShell";
+
     # ---- yazi (whole dir; plugins/flavors installed with `ya pack -i`) ----
     ".config/yazi".source = link "${dotfiles}/yazi";
 
