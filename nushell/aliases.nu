@@ -9,7 +9,7 @@ alias ll = ls -la
 alias lstr = lstr --icons --color always
 alias nd = nix develop
 alias nn = nix develop
-
+alias oc = opencode
 alias tg = topgrade -y --no-retry
 
 # aliases as a function

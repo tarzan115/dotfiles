@@ -228,7 +228,6 @@ in
     };
 
     # Integrated Feature Toggles
-    enableSystemMonitoring = true; # Enables dgop system monitoring[span_3](start_span)[span_3](end_span)
     enableVPN = true;              # Enables VPN management widget[span_4](start_span)[span_4](end_span)
     enableDynamicTheming = true;   # Wallpaper-based theming via matugen[span_5](start_span)[span_5](end_span)
     enableAudioWavelength = true;  # Audio visualizer via cava[span_6](start_span)[span_6](end_span)
