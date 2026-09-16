@@ -28,7 +28,9 @@ in
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "doanh-nixos"; # Define your hostname.
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
+  # Wireless is managed by NetworkManager (below), which runs its own
+  # DBus-controlled wpa_supplicant. No separate networking.wireless needed.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -36,6 +38,13 @@ in
 
   # Enable networking
   networking.networkmanager.enable = true;
+
+  # Desktop with an always-present link: waiting for NetworkManager to report
+  # "online" only delays boot.
+  systemd.services.NetworkManager-wait-online.enable = false;
+
+  # Electron/Chromium apps: use the native Wayland backend instead of XWayland.
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # Set your time zone.
   time.timeZone = "Asia/Ho_Chi_Minh";
@@ -67,7 +76,11 @@ in
     isNormalUser = true;
     description = "doanh";
     shell = pkgs.nushell;
-    packages = with pkgs; [];
+    # Key-only SSH access (password auth is disabled below). The matching
+    # private key is ~/.ssh/id_ed25519 on this machine.
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAxr+K1akNoqDfA3iZNMxUyo8omZNcgFEd9sonQjgIe3 doanh@doanh-nixos"
+    ];
   };
 
   # List packages installed in system profile. To search, run:
@@ -80,8 +93,8 @@ in
      qt6.qtwayland   # QT support for Wayland interfaces
      pamixer         # Audio control via DMS widgets
      brightnessctl   # Brightness sliders
-     xdg-desktop-portal     # Required for screen sharing via portal protocol
-     xdg-desktop-portal-wlr # Wayland (wlroots-based) portal backend for MangoWM
+     # xdg-desktop-portal and its wlr backend are pulled in declaratively via
+     # xdg.portal.extraPortals below, so they are not listed here.
   ];
 
   # PipeWire — replaces PulseAudio and provides the WebRTC screen-capture
@@ -153,6 +166,10 @@ in
     # Provides pkgs.fenix with the exact nixpkgs revision this system uses.
     inputs.fenix.overlays.default
   ];
+
+  # Declarative portal backends (the module adds these + xdg-desktop-portal to
+  # systemPackages). wlr resolves to the 0.7.x overlay pin above.
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
 
   # Skip the wlr portal's picker entirely: "none" makes xdwim 0.7.x
   # auto-select the output named below, falling back to the first monitor.
@@ -249,8 +266,15 @@ in
   ];
 
   # Enable nix-command and flakes so `nix run`, `nix shell`, etc. work
-  # without passing --extra-experimental-features every time.
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  # without passing --extra-experimental-features every time. warn-dirty
+  # silences the "Git tree is dirty" warning that otherwise appears on every
+  # nix command while iterating on this live-edited repo.
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    warn-dirty = false;
+  };
+  # Deduplicate overlapping store paths daily (keeps the store smaller).
+  nix.optimise.automatic = true;
   # Automatic garbage collection: drop unreferenced store paths weekly and
   # prune old system generations. Free disk space without manual
   # `nix-collect-garbage` runs.
@@ -289,8 +313,17 @@ in
   # Ensure doanh can manage bluetooth devices without sudo
   users.users."doanh".extraGroups = [ "networkmanager" "wheel" "bluetooth" ];
 
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  # OpenSSH daemon — key-only. Password/PAM auth is disabled because the
+  # firewall opens :22 to the network by default (services.openssh.openFirewall)
+  # and there is no need for password logins from outside.
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      PermitRootLogin = "no";
+    };
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
