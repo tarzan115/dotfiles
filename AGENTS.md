@@ -39,3 +39,5 @@ to the original when flags don't overlap.
    automatically for known incompatible flags.
 6. Never write files via `cat <<EOF`; use the editor's write tool. Never use
    `grep`/`sed`/`awk` to parse JSON — prefer a real parser.
+
+@RTK.md
