@@ -32,17 +32,18 @@
     };
 
     # kanata config folder — pulled in as a path input so configuration.nix
-    # can reference its files in pure evaluation mode. Must be absolute:
-    # relative path inputs resolve against the flake's store copy.
+    # can reference its files in pure evaluation mode. Relative paths resolve
+    # against the flake dir (nixos/), so ../kanata stays portable across
+    # usernames/hosts.
     kanata = {
-      url = "path:/home/doanh/dotfiles/kanata";
+      url = "path:../kanata";
       flake = false;
     };
 
     # tuigreet config folder — pulled in as a path input so configuration.nix
     # can reference its files in pure evaluation mode.
     tuigreet-config = {
-      url = "path:/home/doanh/dotfiles/tuigreet";
+      url = "path:../tuigreet";
       flake = false;
     };
   };
@@ -66,6 +67,9 @@
           {
             home-manager.useUserPackages = true;
             home-manager.useGlobalPkgs = true;
+            # Never hard-fail activation on an existing hand-made file:
+            # move it aside as <file>.hm-bak instead of aborting the switch.
+            home-manager.backupFileExtension = "hm-bak";
             home-manager.users.doanh = import ./home.nix;
           }
           ./configuration.nix

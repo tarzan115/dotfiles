@@ -25,11 +25,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789410700,
-        "narHash": "sha256-WE50/Jsa9shfm+uAXi7SF+v7qQ3oc6ZtAOhocoery3Q=",
+        "lastModified": 1789567530,
+        "narHash": "sha256-nh4uJPAgFTfSIyag8+5CMsxO2SWVTY55TGQNZCWMTJc=",
         "owner": "avengemedia",
         "repo": "dankmaterialshell",
-        "rev": "05c807b7cd87f29dc8c26f8a33cabcaa07d9c823",
+        "rev": "641d65cbd945300911da96ceb9ad100c7301cafc",
         "type": "github"
       },
       "original": {
@@ -46,11 +46,11 @@
         "rust-analyzer-src": "rust-analyzer-src"
       },
       "locked": {
-        "lastModified": 1789388429,
-        "narHash": "sha256-DWlS3VxQTZZoeZXZFpTchRgNU/LgnrzQJK+EFPiq0Qc=",
+        "lastModified": 1789557184,
+        "narHash": "sha256-tT2QvXeGhjViqqYNKyUZdRex9a1Qcq9jPSTKJbANPEQ=",
         "owner": "nix-community",
         "repo": "fenix",
-        "rev": "4bb440a5be00604edd7a663f6813346f3901b5c1",
+        "rev": "3887816a415b766267233824830c5e05b25f5dcf",
         "type": "github"
       },
       "original": {
@@ -122,11 +122,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789386765,
-        "narHash": "sha256-4hyLFBhzQC7+qPMELWc7J/sbdA6ckXZxXU9CYRsGhsc=",
+        "lastModified": 1789482455,
+        "narHash": "sha256-pD3qVlQ4mUCFoTWrYtxecpSitQMsgJvJIN0FUIDZoEU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "87c391f49a34660de6010f35bb50fb1bf811be9f",
+        "rev": "efa3ccb4c3cc90d832eab232976379058fa75aa3",
         "type": "github"
       },
       "original": {
@@ -138,15 +138,14 @@
     "kanata": {
       "flake": false,
       "locked": {
-        "lastModified": 1788737035,
-        "narHash": "sha256-maQhgVwKtyPmVMp20OTc4BvTBN5F+Vuk0iQk6C4ElXk=",
-        "path": "/home/doanh/dotfiles/kanata",
+        "path": "../kanata",
         "type": "path"
       },
       "original": {
-        "path": "/home/doanh/dotfiles/kanata",
+        "path": "../kanata",
         "type": "path"
-      }
+      },
+      "parent": []
     },
     "mangowm": {
       "inputs": {
@@ -157,11 +156,11 @@
         "scenefx": "scenefx"
       },
       "locked": {
-        "lastModified": 1789311810,
-        "narHash": "sha256-dKp62Mt74lzAORGYe9dCx/dGQYN67s2ltwZMFUOU2rs=",
+        "lastModified": 1789549683,
+        "narHash": "sha256-+DQ1NzVmLJ8JkFKqZYKCkhAPT5hUN/FeDuvLCQ4cMHA=",
         "owner": "mangowm",
         "repo": "mango",
-        "rev": "e2b9ca85bad6af6c3d240a13c9f8eb2a09502663",
+        "rev": "d4b1e49fcbfd14e62acec4e9a0d895230f25da8f",
         "type": "github"
       },
       "original": {
@@ -172,11 +171,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1789286504,
-        "narHash": "sha256-eiEK7cKZORNEvX0GeF3RtNEF/JXhgf2RqSp3230q13E=",
+        "lastModified": 1789546076,
+        "narHash": "sha256-zVxLZiSnmaaPLwnhj7pwmqe3axBg/C6nG5JZsJMh2g4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ef34387ddd751e1ab8857adf4676492d32eb24ec",
+        "rev": "b1b875982b17dabde9b4a37f3e229e74913e6db3",
         "type": "github"
       },
       "original": {
@@ -232,11 +231,11 @@
     "rust-analyzer-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1789328305,
-        "narHash": "sha256-B6BFmC8FTRppbMpg/II53hGKB7shRv2IKi3E/HcJHaU=",
+        "lastModified": 1789506595,
+        "narHash": "sha256-YCeFChL7C5GWwnped2TXDjxfwa5MhlqRzq8De2lMat0=",
         "owner": "rust-lang",
         "repo": "rust-analyzer",
-        "rev": "682a84e95b5a52cf06e9822fcaa4f628738554bf",
+        "rev": "fa88768e772857f332bc8383e3a1c5a4212f9a6e",
         "type": "github"
       },
       "original": {
@@ -287,15 +286,14 @@
     "tuigreet-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1787355321,
-        "narHash": "sha256-mjZssd9OpoSDFbjD5WrIZW8wQo6ktDo7HGIfFleMQHI=",
-        "path": "/home/doanh/dotfiles/tuigreet",
+        "path": "../tuigreet",
         "type": "path"
       },
       "original": {
-        "path": "/home/doanh/dotfiles/tuigreet",
+        "path": "../tuigreet",
         "type": "path"
-      }
+      },
+      "parent": []
     }
   },
   "root": "root",

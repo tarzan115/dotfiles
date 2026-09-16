@@ -1,11 +1,14 @@
-# Workspace wrapper: copied (not symlinked) into ~/workspace/kotlin/flake.nix
+# Workspace wrapper: rendered (not symlinked) into ~/workspace/kotlin/flake.nix
 # because nix snapshots path flakes into the store, so an absolute symlink
 # flake.nix would dangle. The real shell lives in nix/kotlin-shell.nix and is
 # pulled in as a path input, so edits there are picked up live by nix.
+#
+# @DOTFILES@ is substituted with the real dotfiles path by the
+# workspaceFlakes activation in home.nix (flake inputs can't use ~ or $HOME).
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    shells.url = "path:/home/doanh/dotfiles/nix";
+    shells.url = "path:@DOTFILES@/nix";
     shells.flake = false;
   };
 

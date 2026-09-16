@@ -6,7 +6,7 @@
 }:
 
 let
-  dotfiles = "/home/doanh/dotfiles";
+  dotfiles = "${config.home.homeDirectory}/dotfiles";
   # Symlink straight to the dotfiles repo so the repo stays the single
   # source of truth (editing there is reflected live).
   link = source: config.lib.file.mkOutOfStoreSymlink source;
@@ -37,6 +37,12 @@ in
     rumdl
     gitui
     pik
+
+    # ---- nix / shell linting ----
+    shellcheck
+    shfmt
+    statix
+    deadnix
 
     # ---- editors ----
     helix
@@ -194,10 +200,13 @@ in
   # into the store, so a flake.nix symlink pointing outside the workspace
   # dir dangles. These wrappers are static -- the real shells live in
   # nix/{rust,kotlin}-shell.nix and are pulled in via a path input, so
-  # editing those does NOT require re-switching.
+  # editing those does NOT require re-switching. The @DOTFILES@ placeholder
+  # is substituted at activation time so the templates stay path-agnostic.
   home.activation.workspaceFlakes = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     mkdir -p "$HOME/workspace/rust" "$HOME/workspace/kotlin"
-    cp -f "${dotfiles}/nix/workspace-rust.nix" "$HOME/workspace/rust/flake.nix"
-    cp -f "${dotfiles}/nix/workspace-kotlin.nix" "$HOME/workspace/kotlin/flake.nix"
+    sed "s|@DOTFILES@|${dotfiles}|g" \
+      "${dotfiles}/nix/workspace-rust.nix" > "$HOME/workspace/rust/flake.nix"
+    sed "s|@DOTFILES@|${dotfiles}|g" \
+      "${dotfiles}/nix/workspace-kotlin.nix" > "$HOME/workspace/kotlin/flake.nix"
   '';
 }
