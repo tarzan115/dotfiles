@@ -61,8 +61,17 @@ in
   # "online" only delays boot.
   systemd.services.NetworkManager-wait-online.enable = false;
 
-  # Electron/Chromium apps: use the native Wayland backend instead of XWayland.
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  # Wayland / graphics environment for the NVIDIA GPU.
+  environment.sessionVariables = {
+    # Electron/Chromium apps: native Wayland backend instead of XWayland.
+    NIXOS_OZONE_WL = "1";
+    # Select NVIDIA's VA-API driver (installed by hardware.nvidia.videoAcceleration
+    # into /run/opengl-driver) so Firefox/mpv/... get NVDEC hardware video decode.
+    LIBVA_DRIVER_NAME = "nvidia";
+    # Firefox's RDD sandbox blocks the VA-API device; this lets decode work.
+    # It weakens Firefox's RDD process isolation by design.
+    MOZ_DISABLE_RDD_SANDBOX = "1";
+  };
 
   # Set your time zone.
   time.timeZone = "Asia/Ho_Chi_Minh";
