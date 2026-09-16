@@ -3,14 +3,19 @@ $env.config.show_banner = false
 $env.EDITOR = "hx"
 
 if $nu.os-info.name == "macos" {
-    $env.SHELL = ((which nu).path | first)
+    # Homebrew nushell; use the absolute path of the running shell ($SHELL is
+    # expected to be an absolute path by programs that exec it).
+    $env.SHELL = $nu.current-exe
     $env.Path = ($env.Path | prepend '~/.cargo/bin')
     $env.Path = ($env.Path | prepend '/opt/homebrew/bin')
 } else if $nu.os-info.name == "windows" {
-    $env.SHELL = ((which nu).path | first)
     $env.Path = ($env.Path | prepend '~/.cargo/bin')
 } else {
-    $env.SHELL = $"($nu.home-dir)/.cargo/bin/nu"
+    # NixOS: nushell is the login shell (users.users.doanh.shell in
+    # configuration.nix) and lives in the system profile. home.nix also
+    # provides a ~/.cargo/bin/nu shim for scripts that hardcode that path.
+    # $nu.current-exe keeps $SHELL an absolute path.
+    $env.SHELL = $nu.current-exe
     $env.Path = ($env.Path | prepend '/opt/adguardvpn_cli')
 }
 
