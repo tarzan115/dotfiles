@@ -11,6 +11,7 @@ alias nd = nix develop
 alias nn = nix develop
 alias oc = opencode
 alias tg = topgrade -y --no-retry
+alias z- = z -
 
 # aliases as a function
 def --env tk [dir] {
