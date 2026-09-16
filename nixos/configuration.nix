@@ -27,6 +27,24 @@ in
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  # NVIDIA GPU (Turing TU117, PCI 10de:1f02). Turing supports the open kernel
+  # modules, which is what NVIDIA recommends now. Setting the video driver to
+  # "nvidia" makes NixOS blacklist nouveau/nvidiafb and install the matching
+  # kernel module; modesetting + fbdev are required for the wlroots-based mango
+  # compositor. powerManagement enables the 595+ kernel suspend-notifiers and
+  # VRAM preservation across suspend/resume.
+  hardware.nvidia = {
+    open = true;
+    modesetting.enable = true;
+    powerManagement.enable = true;
+    nvidiaSettings = true;
+  };
+  services.xserver.videoDrivers = [ "nvidia" ];
+  # X11 is disabled (Wayland-only), so NixOS does not add the NVIDIA modules to
+  # boot.kernelModules automatically. Load them explicitly so the DRM device is
+  # ready before greetd/mango start (udev would otherwise load them lazily).
+  boot.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_drm" ];
+
   networking.hostName = "doanh-nixos"; # Define your hostname.
 
   # Wireless is managed by NetworkManager (below), which runs its own
@@ -263,6 +281,9 @@ in
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "antigravity-cli"
+    # NVIDIA driver (closed userspace + open kernel module) is unfree.
+    "nvidia-x11"
+    "nvidia-settings"
   ];
 
   # Enable nix-command and flakes so `nix run`, `nix shell`, etc. work
