@@ -44,6 +44,7 @@ in
     shfmt
     statix
     deadnix
+    nixd
 
     # ---- editors ----
     helix
