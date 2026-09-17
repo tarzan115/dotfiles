@@ -33,10 +33,11 @@ in
     atuin
     carapace
     fastfetch
-    opencode
     rumdl
     gitui
     pik
+    pi-coding-agent
+    rtk
 
     # ---- nix / shell linting ----
     shellcheck
@@ -116,11 +117,6 @@ in
     };
   };
 
-  programs.antigravity-cli = {
-    enable = true;
-    defaultModel = "gemini-3.7-flash";
-  };
-
   home.file = {
     # ---- nushell: the repo's my.nu is the real config ----
     ".config/nushell/config.nu".text = "source ${dotfiles}/nushell/my.nu\n";
@@ -179,7 +175,7 @@ in
     # ---- global AI-tool rules: one source of truth (repo AGENTS.md),
     #      shared by every agent CLI that reads a global rules file ----
     "AGENTS.md".source = link "${dotfiles}/AGENTS.md"; # emerging home-dir convention
-    ".config/opencode/AGENTS.md".source = link "${dotfiles}/AGENTS.md";
+    ".pi/agent/AGENTS.md".source = link "${dotfiles}/AGENTS.md";
     ".claude/CLAUDE.md".source = link "${dotfiles}/AGENTS.md";
     ".codex/AGENTS.md".source = link "${dotfiles}/AGENTS.md";
 

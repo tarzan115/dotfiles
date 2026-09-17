@@ -127,7 +127,7 @@ nixos-rebuild switch --flake ~/dotfiles/nixos
 
 - **SSH key** — push/pull to GitHub over SSH (`git@github.com`) needs a key:
   `ssh-keygen -t ed25519` then add the public key to your GitHub account.
-- **GPG key** — `gnupg` is installed for `antigravity-cli`/adguard setup; import
+- **GPG key** — `gnupg` is installed for adguard setup; import
   or generate your key if you rely on it.
 - **automatic GC** is already enabled in `configuration.nix` (weekly, keeps 14d),
   so no manual `nix-collect-garbage` is required.
@@ -200,7 +200,9 @@ Tools are installed the same way as on macOS: **winget** for non-Rust tools
 (`pwsh`, Windows Terminal, `git`, `rustup`, `helix`, `carapace`) and
 **cargo-binstall** for the Rust CLI tools (`nu`, `starship`, `zellij`, `yazi`,
 `bat`, `eza`, `ripgrep`, `fd`, `zoxide`, `atuin`, `topgrade`, `delta`, `skim`,
-`sccache`, `kanata`).
+`sccache`, `kanata`), plus `rtk` for LLM token optimization. `pi-coding-agent`
+is installed via its upstream install script on Windows and macOS; on NixOS it
+is a declarative home package.
 
 Notes:
 

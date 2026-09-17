@@ -62,7 +62,7 @@ rustup update stable
 cargo install cargo-binstall
 cargo binstall -y \
   nu starship zellij bat eza ripgrep fd-find zoxide atuin topgrade yazi-fm \
-  cargo-expand cargo-update sccache git-delta kanata skim
+  cargo-expand cargo-update sccache git-delta kanata skim rtk
 
 # ---- nushell: use the repo's my.nu as the real config ----
 # On macOS (XDG_CONFIG_HOME unset) nu reads config from
@@ -88,10 +88,15 @@ ln -sfn "$DOTFILES/yazi" "$CONFIG_DIR/yazi"
 ln -sfn "$DOTFILES/zellij/config.kdl" "$CONFIG_DIR/zellij/config.kdl"
 ln -sfn "$DOTFILES/cargo/config.toml" "$HOME/.cargo/config.toml"
 
+# ---- pi-coding-agent ----
+if ! command -v pi >/dev/null 2>&1; then
+  curl -fsSL https://pi.dev/install.sh | sh
+fi
+
 # ---- global AI-tool rules: repo AGENTS.md is the single source of truth ----
 ln -sfn "$DOTFILES/AGENTS.md" "$HOME/AGENTS.md"
-mkdir -p "$CONFIG_DIR/opencode" "$HOME/.claude" "$HOME/.codex"
-ln -sfn "$DOTFILES/AGENTS.md" "$CONFIG_DIR/opencode/AGENTS.md"
+mkdir -p "$HOME/.pi/agent" "$HOME/.claude" "$HOME/.codex"
+ln -sfn "$DOTFILES/AGENTS.md" "$HOME/.pi/agent/AGENTS.md"
 ln -sfn "$DOTFILES/AGENTS.md" "$HOME/.claude/CLAUDE.md"
 ln -sfn "$DOTFILES/AGENTS.md" "$HOME/.codex/AGENTS.md"
 

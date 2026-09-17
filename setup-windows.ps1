@@ -100,11 +100,11 @@ if (Get-Command cargo -ErrorAction SilentlyContinue) {
     }
     $cargoPkgs = @(
         'nu starship zellij yazi-fm bat eza ripgrep fd-find zoxide atuin
-         topgrade git-delta skim sccache kanata'
+         topgrade git-delta skim sccache kanata rtk'
     )
     cargo binstall -y $($cargoPkgs -split '\s+')
 
-    foreach ($cmd in @('nu','starship','zellij','yazi','bat','eza','rg','fd','zoxide','atuin','topgrade','delta','sk','sccache','kanata')) {
+    foreach ($cmd in @('nu','starship','zellij','yazi','bat','eza','rg','fd','zoxide','atuin','topgrade','delta','sk','sccache','kanata','rtk')) {
         if (-not (Get-Command $cmd -ErrorAction SilentlyContinue)) {
             Warn "expected '$cmd' missing after cargo-binstall — check the binstall output above"
         }
@@ -172,9 +172,18 @@ if ($nu) {
     }
 }
 
+# ---- pi-coding-agent ----
+if (-not (Get-Command pi -ErrorAction SilentlyContinue)) {
+    try {
+        Invoke-WebRequest -Uri 'https://pi.dev/install.sh' -UseBasicParsing | Invoke-Expression
+    } catch {
+        Warn "pi-coding-agent install failed: $_"
+    }
+}
+
 # ---- global AI-tool rules: repo AGENTS.md is the single source of truth ----
-New-Item -ItemType Directory -Force -Path (Join-Path $CONFIG_DIR 'opencode'), (Join-Path $HOME '.claude'), (Join-Path $HOME '.codex') | Out-Null
-Copy-Item -Force (Join-Path $DOTFILES 'AGENTS.md') (Join-Path $CONFIG_DIR 'opencode\AGENTS.md')
+New-Item -ItemType Directory -Force -Path (Join-Path $HOME '.pi' 'agent'), (Join-Path $HOME '.claude'), (Join-Path $HOME '.codex') | Out-Null
+Copy-Item -Force (Join-Path $DOTFILES 'AGENTS.md') (Join-Path $HOME '.pi' 'agent' 'AGENTS.md')
 Copy-Item -Force (Join-Path $DOTFILES 'AGENTS.md') (Join-Path $HOME '.claude\CLAUDE.md')
 Copy-Item -Force (Join-Path $DOTFILES 'AGENTS.md') (Join-Path $HOME '.codex\AGENTS.md')
 

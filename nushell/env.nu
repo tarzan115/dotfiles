@@ -20,7 +20,6 @@ if $nu.os-info.name == "macos" {
 }
 
 $env.Path = ($env.Path | prepend '~/.local/bin')
-$env.Path = ($env.Path | prepend '~/.opencode/bin')
 
 source ~/.zoxide.nu
 source ~/.atuin.nu
