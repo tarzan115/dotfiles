@@ -289,7 +289,6 @@ in
   '';
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "antigravity-cli"
     # NVIDIA driver (closed userspace + open kernel module) is unfree.
     "nvidia-x11"
     "nvidia-settings"
