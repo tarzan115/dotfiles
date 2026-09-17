@@ -136,11 +136,15 @@ nixos-rebuild switch --flake ~/dotfiles/nixos
 
 ```bash
 # Update all flake inputs (nixpkgs, home-manager, etc.)
-nix flake update
+bash ~/dotfiles/nixos/update-flake.sh
 
 # Apply updates
 sudo nixos-rebuild switch --flake ~/dotfiles/nixos
 ```
+
+`topgrade.toml` enables both flake updates and system rebuilds. A plain
+`sudo nixos-rebuild switch` uses the existing pins without upgrading inputs.
+Keep `nixos/flake.lock` tracked and commit its changes after testing updates.
 
 ## Adding Packages
 

@@ -3,11 +3,11 @@
     "dank-qml-common": {
       "flake": false,
       "locked": {
-        "lastModified": 1788376015,
-        "narHash": "sha256-/tT8rTznLADndTwLBzdgzzgfJH1ZhYQibYo5v/F8U+U=",
+        "lastModified": 1789679713,
+        "narHash": "sha256-H2eceA9sHCRUg2x2jcgPExklflHSznCB+YPyx/DQ0dg=",
         "owner": "AvengeMedia",
         "repo": "dank-qml-common",
-        "rev": "26396ce432d6c71c3f5367438f96f4a8d667e160",
+        "rev": "b2fc1ab68d7f0d5a92549b716f37e771662c154d",
         "type": "github"
       },
       "original": {
@@ -25,11 +25,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789567530,
-        "narHash": "sha256-nh4uJPAgFTfSIyag8+5CMsxO2SWVTY55TGQNZCWMTJc=",
+        "lastModified": 1789679919,
+        "narHash": "sha256-tq4jJAujoNdXaN5ACEmeYC+9zjfhwVx/+7EI6SyHqWw=",
         "owner": "avengemedia",
         "repo": "dankmaterialshell",
-        "rev": "641d65cbd945300911da96ceb9ad100c7301cafc",
+        "rev": "dcc7164b77179eada7a5231ef4f993ef4fc18fb4",
         "type": "github"
       },
       "original": {
@@ -46,11 +46,11 @@
         "rust-analyzer-src": "rust-analyzer-src"
       },
       "locked": {
-        "lastModified": 1789557184,
-        "narHash": "sha256-tT2QvXeGhjViqqYNKyUZdRex9a1Qcq9jPSTKJbANPEQ=",
+        "lastModified": 1789644068,
+        "narHash": "sha256-wt1Mee04mQYtOPolRGHbZFb3CyHKidFryurtWuOZOao=",
         "owner": "nix-community",
         "repo": "fenix",
-        "rev": "3887816a415b766267233824830c5e05b25f5dcf",
+        "rev": "f8ac2cd5626cc565f546e1053ab4591cfe0b3ea9",
         "type": "github"
       },
       "original": {
@@ -122,11 +122,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789482455,
-        "narHash": "sha256-pD3qVlQ4mUCFoTWrYtxecpSitQMsgJvJIN0FUIDZoEU=",
+        "lastModified": 1789676441,
+        "narHash": "sha256-mOvO5VvycuBtOUe5EYI54vrLsWe+2KF/82fmwKooe48=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "efa3ccb4c3cc90d832eab232976379058fa75aa3",
+        "rev": "9d485f74cd27d17126ee34cb31005c39d20f741f",
         "type": "github"
       },
       "original": {
@@ -156,11 +156,11 @@
         "scenefx": "scenefx"
       },
       "locked": {
-        "lastModified": 1789549683,
-        "narHash": "sha256-+DQ1NzVmLJ8JkFKqZYKCkhAPT5hUN/FeDuvLCQ4cMHA=",
+        "lastModified": 1789656621,
+        "narHash": "sha256-oXFy3QL59aUakC93RhUs8+RdRYq8uAlvGiUPvh8RjSE=",
         "owner": "mangowm",
         "repo": "mango",
-        "rev": "d4b1e49fcbfd14e62acec4e9a0d895230f25da8f",
+        "rev": "c0086278eff891d166b6b6465fe59971195f2c64",
         "type": "github"
       },
       "original": {

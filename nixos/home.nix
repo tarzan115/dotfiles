@@ -75,6 +75,9 @@ in
     pkg-config
     gnumake
     cmake
+    # Node.js runtime; the default nodejs derivation bundles npm, npx,
+    # and corepack (for pnpm/yarn shims) in one package.
+    nodejs
 
     # ---- yazi file manager ----
     yazi
@@ -116,6 +119,23 @@ in
       "application/pdf" = [ "firefox.desktop" ];
     };
   };
+
+  # Fcitx is manual-only. The NixOS package registers both XDG autostart
+  # and D-Bus activation; commenting out mango's startup command is not enough.
+  xdg.configFile."autostart/org.fcitx.Fcitx5.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Name=Fcitx 5
+    Hidden=true
+  '';
+  # User service definitions take precedence over the system registration.
+  # Fail activation requests, but allow an explicitly launched `fcitx5 -d`
+  # to own the bus name and serve input-method clients normally.
+  xdg.dataFile."dbus-1/services/org.fcitx.Fcitx5.service".text = ''
+    [D-BUS Service]
+    Name=org.fcitx.Fcitx5
+    Exec=${pkgs.coreutils}/bin/false
+  '';
 
   home.file = {
     # ---- nushell: the repo's my.nu is the real config ----

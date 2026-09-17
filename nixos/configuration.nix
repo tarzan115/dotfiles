@@ -115,6 +115,9 @@ in
   # User-level packages (gram, rust, yazi, ...) are managed by
   # home-manager in ./home.nix.
   environment.systemPackages = with pkgs; [
+     # Prefer Rust coreutils in the system command profile. Keep GNU coreutils
+     # for packages/builds that reference it directly; do not override pkgs.coreutils.
+     (lib.hiPrio uutils-coreutils-noprefix)
      git
      gnupg           # GPG for adguardvpn-cli install
      qt6.qtwayland   # QT support for Wayland interfaces
@@ -144,8 +147,8 @@ in
 
   # Vietnamese input: fcitx5 + Unikey engine. The module exports
   # GTK_IM_MODULE/QT_IM_MODULE/XMODIFIERS globally and installs
-  # fcitx5-with-addons into systemPackages; the daemon is launched by
-  # mango-config/autostart.sh (`fcitx5 --replace -d`). fcitx5-gtk ships the
+  # fcitx5-with-addons into systemPackages. Start manually with `fcitx5 -d`;
+  # home.nix blocks XDG autostart and D-Bus activation. fcitx5-gtk ships the
   # GTK IM module that GTK_IM_MODULE=fcitx loads — without it GTK apps log
   # "No IM module matching GTK_IM_MODULE=fcitx found" and typing breaks.
   # settings.inputMethod seeds /etc/xdg/fcitx5/profile as the default;
