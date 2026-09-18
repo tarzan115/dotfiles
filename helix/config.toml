@@ -16,9 +16,3 @@ auto-signature-help = true
 insert = "bar"
 normal = "block"
 select = "underline"
-
-[language-server.nixd]
-command = "nixd"
-
-[language.nix]
-lsp = "nixd"

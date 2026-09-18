@@ -100,6 +100,16 @@ ln -sfn "$DOTFILES/AGENTS.md" "$HOME/.pi/agent/AGENTS.md"
 ln -sfn "$DOTFILES/AGENTS.md" "$HOME/.claude/CLAUDE.md"
 ln -sfn "$DOTFILES/AGENTS.md" "$HOME/.codex/AGENTS.md"
 
+# ---- pi global agent config (repo is the source of truth). Runtime state
+#      (sessions, npm/git packages, auth.json, tmp) stays unmanaged. ----
+ln -sfn "$DOTFILES/pi/settings.json" "$HOME/.pi/agent/settings.json"
+ln -sfn "$DOTFILES/pi/pi-beautiful-tui.json" "$HOME/.pi/agent/pi-beautiful-tui.json"
+# -sfn would nest a symlink inside an existing real dir; drop it first so the
+# repo dir wins (rm on a symlink removes only the link).
+rm -rf "$HOME/.pi/agent/agents" "$HOME/.pi/agent/extensions"
+ln -sfn "$DOTFILES/pi/agents" "$HOME/.pi/agent/agents"
+ln -sfn "$DOTFILES/pi/extensions" "$HOME/.pi/agent/extensions"
+
 # ---- modern-tool wrappers in ~/.local/bin (nu env.nu prepends it to PATH) ----
 mkdir -p "$HOME/.local/bin"
 for tool in grep find cat ls; do

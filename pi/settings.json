@@ -1,0 +1,24 @@
+{
+  "lastChangelogVersion": "0.85.1",
+  "defaultProvider": "openrouter",
+  "defaultModel": "auto",
+  "theme": "everforest-light-medium/everforest-dark-hard",
+  "packages": [
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@tintinweb/pi-subagents",
+    "npm:@juicesharp/rpiv-todo",
+    "npm:pi-lens",
+    "git:github.com/DietrichGebert/ponytail",
+    "npm:pi-everforest",
+    "npm:pi-beautiful-tui",
+    "npm:pi-animations",
+    "npm:context-mode",
+    "npm:@ygncode/pi-insights",
+    "git:github.com/MciG-ggg/pi-markdown-box",
+    "npm:pi-web-access",
+    "npm:pi-hermes-memory",
+    "npm:pi-context-view",
+    "git:github.com/obra/superpowers"
+  ],
+  "defaultThinkingLevel": "high"
+}

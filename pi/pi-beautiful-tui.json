@@ -1,0 +1,23 @@
+{
+  "enabled": true,
+  "settingsLanguage": "en",
+  "style": "retro",
+  "footerSegments": {
+    "cwd": true,
+    "sessionName": true,
+    "context": true,
+    "tokens": true,
+    "cost": true,
+    "timer": true,
+    "extensionStatuses": true
+  },
+  "telemetry": {
+    "enabled": true,
+    "tps": true,
+    "ttft": true,
+    "duration": true,
+    "tokens": true,
+    "stalls": true,
+    "cost": true
+  }
+}

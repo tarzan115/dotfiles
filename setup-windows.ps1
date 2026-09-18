@@ -187,6 +187,14 @@ Copy-Item -Force (Join-Path $DOTFILES 'AGENTS.md') (Join-Path $HOME '.pi' 'agent
 Copy-Item -Force (Join-Path $DOTFILES 'AGENTS.md') (Join-Path $HOME '.claude\CLAUDE.md')
 Copy-Item -Force (Join-Path $DOTFILES 'AGENTS.md') (Join-Path $HOME '.codex\AGENTS.md')
 
+# ---- pi global agent config (Windows copies; runtime state stays unmanaged) ----
+$piAgent = Join-Path $HOME '.pi\agent'
+New-Item -ItemType Directory -Force -Path (Join-Path $piAgent 'agents'), (Join-Path $piAgent 'extensions') | Out-Null
+Copy-Item -Force (Join-Path $DOTFILES 'pi\settings.json') (Join-Path $piAgent 'settings.json')
+Copy-Item -Force (Join-Path $DOTFILES 'pi\pi-beautiful-tui.json') (Join-Path $piAgent 'pi-beautiful-tui.json')
+Copy-Item -Recurse -Force (Join-Path $DOTFILES 'pi\agents\*') (Join-Path $piAgent 'agents')
+Copy-Item -Recurse -Force (Join-Path $DOTFILES 'pi\extensions\*') (Join-Path $piAgent 'extensions')
+
 # ---- kanata: Windows copy of config.kbd.
 #      The linux-dev-names-include block is Linux-only -> stripped. kanata
 #      ignores unapplicable device blocks on other platforms (like macOS), but

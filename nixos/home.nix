@@ -76,9 +76,11 @@ in
     pkg-config
     gnumake
     cmake
-    # Node.js runtime; the default nodejs derivation bundles npm, npx,
-    # and corepack (for pnpm/yarn shims) in one package.
-    nodejs
+    # Bun runtime + its bundled package manager; replaces node as the
+    # default JS/TS toolkit.
+    bun
+    # Keep a real `node`/npm on PATH for tools that invoke `node` by name.
+    nodejs_latest
 
     # ---- yazi file manager ----
     yazi
@@ -93,6 +95,7 @@ in
     kooha # portal-based screen recorder; tests the ScreenCast pipeline
 
     # ---- misc ----
+    localsend
   ];
 
   programs.git = {
@@ -148,6 +151,7 @@ in
 
     # ---- helix ----
     ".config/helix/config.toml".source = link "${dotfiles}/helix/config.toml";
+    ".config/helix/languages.toml".source = link "${dotfiles}/helix/languages.toml";
     ".config/helix/themes".source = link "${dotfiles}/helix/themes";
 
     # ---- foot (mango-config submodule) ----
@@ -199,6 +203,14 @@ in
     ".pi/agent/AGENTS.md".source = link "${dotfiles}/AGENTS.md";
     ".claude/CLAUDE.md".source = link "${dotfiles}/AGENTS.md";
     ".codex/AGENTS.md".source = link "${dotfiles}/AGENTS.md";
+
+    # ---- pi global agent config (settings, extension config, custom agents,
+    #      extensions). Runtime state -- sessions/, npm/, git/, tmp/, auth.json,
+    #      the memory sqlite files -- stays unmanaged under ~/.pi/agent ----
+    ".pi/agent/settings.json".source = link "${dotfiles}/pi/settings.json";
+    ".pi/agent/pi-beautiful-tui.json".source = link "${dotfiles}/pi/pi-beautiful-tui.json";
+    ".pi/agent/agents".source = link "${dotfiles}/pi/agents";
+    ".pi/agent/extensions".source = link "${dotfiles}/pi/extensions";
 
     # ---- modern-tool wrappers: shadow classic names on PATH so even a
     #      plain `grep`/`find`/`cat`/`ls` lands on rg/fd/bat/eza (with

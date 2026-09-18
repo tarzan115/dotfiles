@@ -1,0 +1,8 @@
+{
+  "workingAnim": "crush",
+  "thinkingAnim": "shimmer",
+  "toolAnim": "pipeline",
+  "width": "full",
+  "randomMode": true,
+  "enabled": true
+}
