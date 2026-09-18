@@ -4,15 +4,11 @@
 # back to the real cat for flags bat can't map 1:1.
 set -u
 
-_self="${BASH_SOURCE[0]}"
-if [[ -L "$_self" ]]; then
-    _tgt="$(readlink "$_self")"
-    case "$_tgt" in
-        /*) _self="$_tgt" ;;
-        *) _self="$(cd "$(dirname "$_self")" && pwd)/$_tgt" ;;
-    esac
-fi
-_dir="$(cd "$(dirname "$_self")" && pwd)"
+# Resolve our own path fully: home-manager deploys ~/.local/bin/cat as a
+# symlink into the store which then points at this repo file. Resolving only
+# one level would land on the store dir (no _lib.sh) and make run_orig re-exec
+# the wrapper forever. readlink -f lands on the repo dir, where _lib.sh lives.
+_dir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 source "$_dir/_lib.sh"
 
 has_modern bat || run_orig cat "$@"
