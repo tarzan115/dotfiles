@@ -38,6 +38,7 @@ in
     pik
     pi-coding-agent
     rtk
+    lstr
 
     # ---- nix / shell linting ----
     shellcheck

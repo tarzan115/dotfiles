@@ -12,6 +12,7 @@ alias nn = nix develop
 alias rk = rtk
 alias tg = topgrade -y --no-retry
 alias z- = z -
+alias lstr = lstr --icons --color always
 
 # aliases as a function
 def --env tk [dir] {
