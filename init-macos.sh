@@ -165,6 +165,49 @@ install_font() {
   rm -rf "$archive" "$tmp"
 }
 
+install_kanata() {
+  # Deliberately NOT installed via cargo-binstall. binstall resolves versions
+  # from crates.io, which lags upstream and still publishes 1.11.0 as stable —
+  # but kanata/config.kbd requires the 1.12.0 `tap-hold-require-prior-idle`
+  # defcfg option. binstall therefore pins us to a version that cannot parse
+  # the config, and kanata exits 1 on startup while launchd KeepAlive restarts
+  # it every 10s forever. Pull the GitHub release asset instead, and re-check
+  # every run so the upgrade actually lands on an existing install.
+  local tag version archive sums expected actual tmp
+  tag="$(github_latest_tag jtroo/kanata)"
+  version="${tag#v}"
+
+  # Idempotent: no-op when the installed version already matches upstream.
+  if command -v kanata >/dev/null 2>&1 &&
+    [[ "$(kanata --version 2>/dev/null)" == "kanata $version" ]]; then
+    return
+  fi
+
+  tmp="$(mktemp -d)"
+  archive="$tmp/kanata.zip"
+  sums="$tmp/sha256sums"
+  curl -fsSL -o "$archive" \
+    "https://github.com/jtroo/kanata/releases/download/$tag/macos-binaries-x64.zip"
+  curl -fsSL -o "$sums" \
+    "https://github.com/jtroo/kanata/releases/download/$tag/sha256sums"
+
+  expected="$(awk '$2 == "macos-binaries-x64.zip" { print $1 }' "$sums")"
+  actual="$(shasum -a 256 "$archive" | awk '{ print $1 }')"
+  if [[ -z "$expected" || "$expected" != "$actual" ]]; then
+    echo "kanata: checksum mismatch for $tag ($expected != $actual)" >&2
+    rm -rf "$tmp"
+    exit 1
+  fi
+
+  unzip -oq "$archive" -d "$tmp"
+  # kanata.plist hardcodes ~/.cargo/bin/kanata, so keep that exact path.
+  # kanata_macos_x64 is the default build (cmd actions compiled out); the
+  # config only uses Ctrl/Shift, so the _cmd_allowed variant is not needed.
+  mkdir -p "$HOME/.cargo/bin"
+  install -m 755 "$tmp/kanata_macos_x64" "$HOME/.cargo/bin/kanata"
+  rm -rf "$tmp"
+}
+
 install_kitty
 install_cmake
 install_fastfetch
@@ -214,7 +257,6 @@ cargo-expand:cargo-expand
 cargo-update:cargo-install-update
 sccache:sccache
 git-delta:delta
-kanata:kanata
 skim:sk
 rtk:rtk
 TOOLS
@@ -222,6 +264,9 @@ TOOLS
 if ((${#cargo_packages[@]})); then
   cargo binstall -y "${cargo_packages[@]}"
 fi
+
+# kanata comes from a GitHub release asset, not binstall — see install_kanata.
+install_kanata
 
 # ---- nushell: use the repo's my.nu as the real config ----
 # On macOS (XDG_CONFIG_HOME unset) nu reads config from
