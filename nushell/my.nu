@@ -4,7 +4,8 @@
 # only does `source <dotfiles>/nushell/my.nu`, so this file is the single
 # source of truth. Files are kept separate so each one stays focused:
 #   init.nu    - theme, carapace, starship
-#   env.nu     - environment variables and PATH
+#   env.nu     - environment variables
+#   paths.nu   - PATH assembly
 #   aliases.nu - aliases and small helper commands
 #   tools.nu   - interactive tool startup (zellij)
 #

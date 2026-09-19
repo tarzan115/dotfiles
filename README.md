@@ -159,7 +159,7 @@ The repo works on macOS too — most configs are cross-platform (`kitty`, `helix
 switches paths and package-manager helpers on `$nu.os-info.name`, so the same
 files are used on both systems.
 
-Run the bootstrap script on your Mac once (installs Homebrew + tools, wires up
+Run the bootstrap script on your Mac once (installs native tools without Homebrew, wires up
 configs, and loads kanata as a LaunchAgent):
 
 ```bash
@@ -174,7 +174,7 @@ Notes:
 - `nixos/`, `mango-config/`, and `tuigreet/` are NixOS/Linux-only and are not
   used on macOS.
 - `topgrade.toml` is NixOS-specific (flake update + rebuild), so it is not
-  installed on macOS — topgrade auto-generates its own config there (brew).
+  installed on macOS — topgrade auto-generates its own config there.
 - Kanata runs via `kanata/kanata.plist` (LaunchAgent) on macOS; on NixOS it runs
   via `services.kanata`. The NixOS kanata module only reads `config.kbd`, so the
   plist is harmless there.
@@ -237,7 +237,7 @@ Notes:
 
 ```
 dotfiles/
-├── init-macos.sh                # macOS bootstrap (brew + symlinks + kanata LaunchAgent)
+├── init-macos.sh                # macOS bootstrap (native tools + symlinks + kanata LaunchAgent)
 ├── setup-windows.ps1            # Windows bootstrap (winget + cargo-binstall + kanata Run key)
 ├── nixos/
 │   ├── flake.nix              # Flake entry point

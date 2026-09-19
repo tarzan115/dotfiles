@@ -22,26 +22,157 @@ esac
 
 DOTFILES="$HOME/dotfiles"
 CONFIG_DIR="$HOME/.config"
+LOCAL_PREFIX="$HOME/.local"
+LOCAL_BIN="$LOCAL_PREFIX/bin"
+LOCAL_OPT="$LOCAL_PREFIX/opt"
+mkdir -p "$LOCAL_BIN" "$LOCAL_OPT"
+# Make tools installed by this script available immediately, without requiring
+# a new shell. This also keeps everything in the user's home directory.
+export PATH="$LOCAL_BIN:/usr/local/bin:$PATH"
 
-# ---- Homebrew ----
-if ! command -v brew >/dev/null 2>&1; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
+# ---- native macOS tools (no Homebrew) ----
+# These installers use official upstream releases and are safe to re-run. The
+# architecture is deliberately x86_64: this machine is an Intel Mac.
+github_latest_tag() {
+  local repo="$1" url
+  url="$(curl -fsSL -o /dev/null -w '%{url_effective}' \
+    "https://github.com/$repo/releases/latest")"
+  printf '%s\n' "${url##*/}"
+}
 
-# ---- tools (brew only for non-cargo-able tools) ----
-# kitty/cmake/bash-language-server/fastfetch aren't Rust; helix and carapace
-# must stay in brew too (crates.io `helix-editor` is a placeholder with no bin,
-# and the real carapace is written in Go). Everything else comes via cargo below.
-brew install kitty cmake bash-language-server fastfetch helix carapace
-
-for cask in font-jetbrains-mono-nerd-font gram; do
-  if [[ "$cask" == "font-jetbrains-mono-nerd-font" ]] && \
-     compgen -G "$HOME/Library/Fonts/*JetBrainsMonoNerdFont*.ttf" >/dev/null; then
-    echo "font-jetbrains-mono-nerd-font already installed (font file present); skipping"
-    continue
+install_kitty() {
+  if command -v kitty >/dev/null 2>&1; then
+    return
+  elif [[ -x "/Applications/kitty.app/bin/kitty" ]]; then
+    ln -sfn "/Applications/kitty.app/bin/kitty" "$LOCAL_BIN/kitty"
+    return
+  elif [[ ! -x "$LOCAL_OPT/kitty.app/bin/kitty" ]]; then
+    curl -fsSL https://sw.kovidgoyal.net/kitty/installer.sh |
+      /bin/sh -s -- "dest=$LOCAL_OPT" launch=n
   fi
-  brew list --cask "$cask" &>/dev/null || brew install --cask "$cask"
-done
+  ln -sfn "$LOCAL_OPT/kitty.app/bin/kitty" "$LOCAL_BIN/kitty"
+}
+
+install_cmake() {
+  command -v cmake >/dev/null 2>&1 && return
+  local version dmg mount
+  version="$(github_latest_tag Kitware/CMake)"
+  dmg="$(mktemp -t cmake).dmg"
+  mount="$(mktemp -d)"
+  curl -fsSL -o "$dmg" \
+    "https://github.com/Kitware/CMake/releases/latest/download/cmake-${version#v}-macos-universal.dmg"
+  hdiutil attach -nobrowse -readonly -mountpoint "$mount" "$dmg" >/dev/null
+  rm -rf "$LOCAL_OPT/CMake.app"
+  cp -R "$mount/CMake.app" "$LOCAL_OPT/CMake.app"
+  hdiutil detach "$mount" >/dev/null
+  rm -rf "$dmg" "$mount"
+  for tool in cmake cpack ctest; do
+    ln -sfn "$LOCAL_OPT/CMake.app/Contents/bin/$tool" "$LOCAL_BIN/$tool"
+  done
+}
+
+install_fastfetch() {
+  command -v fastfetch >/dev/null 2>&1 && return
+  local tmp="${TMPDIR:-/tmp}/fastfetch-$$"
+  rm -rf "$tmp"; mkdir -p "$tmp"
+  curl -fsSL \
+    https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-macos-amd64.tar.gz |
+    tar -xzf - -C "$tmp"
+  cp -R "$tmp"/*/usr/. "$LOCAL_PREFIX/"
+  rm -rf "$tmp"
+}
+
+install_helix() {
+  command -v hx >/dev/null 2>&1 && return
+  local version archive tmp extracted
+  version="$(github_latest_tag helix-editor/helix)"
+  archive="$(mktemp -t helix).tar.xz"
+  tmp="$(mktemp -d)"
+  curl -fsSL -o "$archive" \
+    "https://github.com/helix-editor/helix/releases/download/$version/helix-$version-x86_64-macos.tar.xz"
+  tar -xJf "$archive" -C "$tmp"
+  extracted="$tmp/helix-$version-x86_64-macos"
+  rm -rf "$LOCAL_OPT/helix"
+  mv "$extracted" "$LOCAL_OPT/helix"
+  ln -sfn "$LOCAL_OPT/helix/hx" "$LOCAL_BIN/hx"
+  ln -sfn "$LOCAL_OPT/helix/hx" "$LOCAL_BIN/helix"
+  rm -rf "$archive" "$tmp"
+}
+
+install_carapace() {
+  command -v carapace >/dev/null 2>&1 && return
+  local version archive tmp
+  version="$(github_latest_tag carapace-sh/carapace-bin)"
+  version="${version#v}"
+  archive="$(mktemp -t carapace).tar.gz"
+  tmp="$(mktemp -d)"
+  curl -fsSL -o "$archive" \
+    "https://github.com/carapace-sh/carapace-bin/releases/latest/download/carapace-bin_${version}_darwin_amd64.tar.gz"
+  tar -xzf "$archive" -C "$tmp"
+  install -m 755 "$tmp/carapace" "$LOCAL_BIN/carapace"
+  rm -rf "$archive" "$tmp"
+}
+
+install_gram() {
+  command -v gram >/dev/null 2>&1 && return
+  curl -fsSL -o "$LOCAL_BIN/gram" \
+    https://github.com/Jeadie/gram/releases/latest/download/gram-darwin-amd64
+  chmod 755 "$LOCAL_BIN/gram"
+}
+
+install_node() {
+  command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1 && return
+  local line version archive tmp node_dir
+  # Read the official checksum manifest to discover the current Node 22
+  # x86_64 macOS archive without depending on Python, jq, or Homebrew.
+  while read -r _ line; do
+    case "$line" in
+      node-v22.*-darwin-x64.tar.gz) version="$line"; break ;;
+    esac
+  done < <(curl -fsSL https://nodejs.org/dist/latest-v22.x/SHASUMS256.txt)
+  [[ -n "${version:-}" ]] || { echo "Could not find the Node.js macOS x64 archive" >&2; exit 1; }
+  archive="$(mktemp -t node).tar.gz"
+  tmp="$(mktemp -d)"
+  curl -fsSL -o "$archive" "https://nodejs.org/dist/latest-v22.x/$version"
+  tar -xzf "$archive" -C "$tmp"
+  node_dir="${version%.tar.gz}"
+  rm -rf "$LOCAL_OPT/node"
+  mv "$tmp/$node_dir" "$LOCAL_OPT/node"
+  ln -sfn "$LOCAL_OPT/node/bin/node" "$LOCAL_BIN/node"
+  ln -sfn "$LOCAL_OPT/node/bin/npm" "$LOCAL_BIN/npm"
+  ln -sfn "$LOCAL_OPT/node/bin/npx" "$LOCAL_BIN/npx"
+  rm -rf "$archive" "$tmp"
+}
+
+install_bash_language_server() {
+  command -v bash-language-server >/dev/null 2>&1 && return
+  install_node
+  npm install --global --prefix "$LOCAL_PREFIX" bash-language-server
+}
+
+install_font() {
+  compgen -G "$HOME/Library/Fonts/*JetBrainsMonoNerdFont*.ttf" >/dev/null && return
+  local archive tmp
+  archive="$(mktemp -t JetBrainsMono).zip"
+  tmp="$(mktemp -d)"
+  curl -fsSL -o "$archive" \
+    https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
+  unzip -q "$archive" -d "$tmp"
+  mkdir -p "$HOME/Library/Fonts"
+  for font in "$tmp"/*NerdFont*.ttf; do
+    [[ -f "$font" ]] && cp "$font" "$HOME/Library/Fonts/"
+  done
+  rm -rf "$archive" "$tmp"
+}
+
+install_kitty
+install_cmake
+install_fastfetch
+install_helix
+install_carapace
+install_bash_language_server
+install_gram
+install_font
 
 # ---- rust toolchain (rustup) ----
 if ! command -v rustup >/dev/null 2>&1; then
@@ -57,12 +188,40 @@ source "$HOME/.cargo/env"
 rustup update stable
 
 # ---- Rust CLI tools via cargo-binstall (prebuilt binaries when available;
-#      auto-falls back to `cargo install` when none exist), not brew ----
-# Mirrors the rust-toolchain block in nixos/home.nix; keeps the brew list small.
-cargo install cargo-binstall
-cargo binstall -y \
-  nu starship zellij bat eza ripgrep fd-find zoxide atuin topgrade yazi-fm \
-  cargo-expand cargo-update sccache git-delta kanata skim rtk
+#      auto-falls back to `cargo install` when none exist) ----
+# Mirrors the rust-toolchain block in nixos/home.nix. Only missing commands are
+# passed to binstall; existing tools are left alone to avoid needless downloads.
+if ! command -v cargo-binstall >/dev/null 2>&1; then
+  cargo install cargo-binstall
+fi
+
+cargo_packages=()
+while IFS=: read -r package binary; do
+  command -v "$binary" >/dev/null 2>&1 || cargo_packages+=("$package")
+done <<'TOOLS'
+nu:nu
+starship:starship
+zellij:zellij
+bat:bat
+eza:eza
+ripgrep:rg
+fd-find:fd
+zoxide:zoxide
+atuin:atuin
+topgrade:topgrade
+yazi-fm:yazi
+cargo-expand:cargo-expand
+cargo-update:cargo-install-update
+sccache:sccache
+git-delta:delta
+kanata:kanata
+skim:sk
+rtk:rtk
+TOOLS
+
+if ((${#cargo_packages[@]})); then
+  cargo binstall -y "${cargo_packages[@]}"
+fi
 
 # ---- nushell: use the repo's my.nu as the real config ----
 # On macOS (XDG_CONFIG_HOME unset) nu reads config from
@@ -91,6 +250,11 @@ ln -sfn "$DOTFILES/cargo/config.toml" "$HOME/.cargo/config.toml"
 # ---- pi-coding-agent ----
 if ! command -v pi >/dev/null 2>&1; then
   curl -fsSL https://pi.dev/install.sh | sh
+fi
+# Keep pi discoverable from Nushell even when the installer used a versioned
+# standalone Node directory for npm's global prefix.
+if PI_BIN="$(command -v pi 2>/dev/null)"; then
+  ln -sfn "$PI_BIN" "$LOCAL_BIN/pi"
 fi
 
 # ---- global AI-tool rules: repo AGENTS.md is the single source of truth ----
