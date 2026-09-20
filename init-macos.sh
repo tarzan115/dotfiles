@@ -120,6 +120,20 @@ install_gram() {
   chmod 755 "$LOCAL_BIN/gram"
 }
 
+install_gh() {
+  command -v gh >/dev/null 2>&1 && return
+  local version archive tmp
+  version="$(github_latest_tag cli/cli)"
+  version="${version#v}"
+  archive="$(mktemp -t gh).zip"
+  tmp="$(mktemp -d)"
+  curl -fsSL -o "$archive" \
+    "https://github.com/cli/cli/releases/download/v$version/gh_${version}_macOS_amd64.zip"
+  unzip -q "$archive" -d "$tmp"
+  install -m 755 "$tmp/gh_${version}_macOS_amd64/bin/gh" "$LOCAL_BIN/gh"
+  rm -rf "$archive" "$tmp"
+}
+
 install_node() {
   command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1 && return
   local line version archive tmp node_dir
@@ -215,6 +229,7 @@ install_helix
 install_carapace
 install_bash_language_server
 install_gram
+install_gh
 install_font
 
 # ---- rust toolchain (rustup) ----

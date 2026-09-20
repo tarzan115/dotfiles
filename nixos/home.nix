@@ -35,6 +35,7 @@ in
     fastfetch
     rumdl
     gitui
+    gh
     pik
     pi-coding-agent
     rtk
