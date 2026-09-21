@@ -233,6 +233,10 @@ in
   # nix/{rust,kotlin}-shell.nix and are pulled in via a path input, so
   # editing those does NOT require re-switching. The @DOTFILES@ placeholder
   # is substituted at activation time so the templates stay path-agnostic.
+  home.activation.rtkInit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    ${lib.getExe pkgs.rtk} init --agent pi -g --auto-patch 2>/dev/null || true
+  '';
+
   home.activation.workspaceFlakes = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     mkdir -p "$HOME/workspace/rust" "$HOME/workspace/kotlin"
     sed "s|@DOTFILES@|${dotfiles}|g" \
