@@ -262,12 +262,6 @@ in
       restartIfChanged = true;  # Auto-restart service on rebuilds
     };
 
-    # Integrated Feature Toggles
-    enableVPN = true;              # Enables VPN management widget
-    enableDynamicTheming = true;   # Wallpaper-based theming via matugen
-    enableAudioWavelength = true;  # Audio visualizer via cava
-    enableCalendarEvents = true;   # Calendar integration via khal
-
     # Declarative Community Plugins
     plugins = {
     };
