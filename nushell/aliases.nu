@@ -4,15 +4,12 @@ alias cgs = cargo search
 alias cgt = cargo test
 alias cgx = cargo expand
 alias gg = gitui
-alias icgs = cargo binstall -y
 alias ll = ls -la
 alias lstr = lstr --icons --color always
 alias nd = nix develop
-alias nn = nix develop
 alias rk = rtk
 alias tg = topgrade -y --no-retry
 alias z- = z -
-alias lstr = lstr --icons --color always
 
 # aliases as a function
 def --env tk [dir] {

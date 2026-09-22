@@ -32,6 +32,10 @@ pkgs.mkShell {
     echo ""
     echo "To launch IntelliJ IDEA, run: idea"
     echo "For Gradle projects, use: gradle <task>"
-    exec nu
+    # Hand off to nushell only at an interactive terminal; `nix develop -c`,
+    # direnv and scripts must keep bash and run their command.
+    if [[ -t 0 && -t 1 ]]; then
+      exec nu
+    fi
   '';
 }

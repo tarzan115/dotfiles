@@ -182,7 +182,7 @@ in
       '';
 
     # ---- shims so dotfiles referencing ~/.cargo keep working on NixOS ----
-    ".cargo/bin/nu".source = link "${pkgs.nushell}/bin/nu";
+    ".cargo/bin/nu".source = "${pkgs.nushell}/bin/nu";
     ".cargo/config.toml".source = link "${dotfiles}/cargo/config.toml";
 
     # ---- zoxide nushell init (sourced by nushell/env.nu) ----
@@ -192,11 +192,11 @@ in
       '';
 
     # ---- atuin nushell init (sourced by nushell/env.nu) ----
+    # --disable-up-arrow: atuin only on Ctrl+R (the sed hack this replaces
+    # silently never matched, so the binding leaked through anyway).
     ".atuin.nu".source =
       pkgs.runCommand "atuin-nushell.nu" { } ''
-        HOME=$(mktemp -d) ${lib.getExe pkgs.atuin} init nu > "$out"
-        # Fix duplicate keybinding names (atuin uses "atuin" for both Ctrl+R and Up)
-        sed -i '137s/name: atuin/name: atuin-up/' "$out"
+        HOME=$(mktemp -d) ${lib.getExe pkgs.atuin} init nu --disable-up-arrow > "$out"
       '';
 
     # ---- global AI-tool rules: one source of truth (repo AGENTS.md),

@@ -26,6 +26,10 @@ pkgs.mkShell {
     echo "Rust development environment loaded"
     echo "Cargo: $(cargo --version)"
     echo "Rustc: $(rustc --version)"
-    exec nu
+    # Hand off to nushell only at an interactive terminal; `nix develop -c`,
+    # direnv and scripts must keep bash and run their command.
+    if [[ -t 0 && -t 1 ]]; then
+      exec nu
+    fi
   '';
 }

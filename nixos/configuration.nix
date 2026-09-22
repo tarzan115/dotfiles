@@ -258,15 +258,15 @@ in
 
     # Service & Auto-start configuration
     systemd = {
-      enable = true;            # Enable systemd service for auto-start[span_1](start_span)[span_1](end_span)
-      restartIfChanged = true;  # Auto-restart service on rebuilds[span_2](start_span)[span_2](end_span)
+      enable = true;            # Enable systemd service for auto-start
+      restartIfChanged = true;  # Auto-restart service on rebuilds
     };
 
     # Integrated Feature Toggles
-    enableVPN = true;              # Enables VPN management widget[span_4](start_span)[span_4](end_span)
-    enableDynamicTheming = true;   # Wallpaper-based theming via matugen[span_5](start_span)[span_5](end_span)
-    enableAudioWavelength = true;  # Audio visualizer via cava[span_6](start_span)[span_6](end_span)
-    enableCalendarEvents = true;   # Calendar integration via khal[span_7](start_span)[span_7](end_span)
+    enableVPN = true;              # Enables VPN management widget
+    enableDynamicTheming = true;   # Wallpaper-based theming via matugen
+    enableAudioWavelength = true;  # Audio visualizer via cava
+    enableCalendarEvents = true;   # Calendar integration via khal
 
     # Declarative Community Plugins
     plugins = {
@@ -313,9 +313,9 @@ in
 
   # List services that you want to enable:
 
-  # Bluetooth — bluez stack + blueman applet for GUI pairing.
-  # hsphfpd handles headset/handsfree profiles; bluez-alsa/pipewire bridges
-  # A2DP so audio devices show up automatically in PipeWire/PulseAudio.
+  # Bluetooth — bluez stack + blueman applet for GUI pairing. PipeWire's
+  # wireplumber handles the A2DP/HSP/HFP audio profiles, so headsets show up
+  # automatically as audio sinks/sources.
   hardware.bluetooth = {
     enable = true;           # Enable the bluez kernel stack
     powerOnBoot = true;      # Power the adapter on at boot
