@@ -17,7 +17,8 @@
     "npm:pi-web-access",
     "npm:pi-hermes-memory",
     "npm:pi-context-view",
-    "npm:@narumitw/pi-usage"
+    "npm:@narumitw/pi-usage",
+    "npm:pi-tool-display"
   ],
   "defaultThinkingLevel": "high",
   "tuiMode": "regular",
