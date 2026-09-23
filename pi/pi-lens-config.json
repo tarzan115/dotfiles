@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/apmantza/pi-lens/master/docs/schema/pi-lens-config-v1.json",
+  "lsp": {
+    "servers": {
+      "rumdl": {
+        "name": "rumdl",
+        "extensions": [".md", ".markdown", ".mdx"],
+        "command": "rumdl",
+        "args": ["server"]
+      }
+    }
+  }
+}

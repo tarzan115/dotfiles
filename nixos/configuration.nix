@@ -102,6 +102,12 @@ in
   # $ nix search wget
   # User-level packages (gram, rust, yazi, ...) are managed by
   # home-manager in ./home.nix.
+  # FHS dynamic loader shim at /lib64/ld-linux-*.so.2 so prebuilt binaries
+  # from cargo-binstall / GitHub releases (leaf, ...) run on NixOS as-is.
+  # Deliberate tradeoff: those binaries are unpatched/unreproducible; only
+  # install ones you trust.
+  programs.nix-ld.enable = true;
+
   environment.systemPackages = with pkgs; [
      # Prefer Rust coreutils in the system command profile. Keep GNU coreutils
      # for packages/builds that reference it directly; do not override pkgs.coreutils.

@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.86.0",
+  "lastChangelogVersion": "0.86.1",
   "defaultProvider": "openrouter",
   "defaultModel": "xiaomi/mimo-v2.6-pro",
   "theme": "everforest-light-medium/everforest-dark-hard",
@@ -26,5 +26,6 @@
   "terminal": {
     "showTerminalProgress": true
   },
-  "quietStartup": true
+  "quietStartup": true,
+  "hideThinkingBlock": true
 }

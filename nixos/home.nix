@@ -75,6 +75,7 @@ in
 
     # ---- build tooling ----
     gcc
+    mold # fast linker; wired up for cargo in cargo/config.toml
     pkg-config
     gnumake
     cmake
@@ -213,6 +214,10 @@ in
     ".pi/agent/pi-beautiful-tui.json".source = link "${dotfiles}/pi/pi-beautiful-tui.json";
     ".pi/agent/agents".source = link "${dotfiles}/pi/agents";
     ".pi/agent/extensions".source = link "${dotfiles}/pi/extensions";
+
+    # ---- pi-lens (pi diagnostics extension) global config. Runtime state --
+    #      logs/, cache/, tools/, sessions/ -- stays unmanaged under ~/.pi-lens ----
+    ".pi-lens/config.json".source = link "${dotfiles}/pi/pi-lens-config.json";
 
     # ---- modern-tool wrappers: shadow classic names on PATH so even a
     #      plain `grep`/`find`/`cat`/`ls` lands on rg/fd/bat/eza (with

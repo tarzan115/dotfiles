@@ -280,6 +280,10 @@ if ((${#cargo_packages[@]})); then
   cargo binstall -y "${cargo_packages[@]}"
 fi
 
+# Tools with non-standard release naming (leaf, presenterm) live in their own
+# script so NixOS installs the exact same list — see init-cargo-tools.sh.
+"$DOTFILES/init-cargo-tools.sh"
+
 # kanata comes from a GitHub release asset, not binstall — see install_kanata.
 install_kanata
 

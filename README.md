@@ -252,7 +252,7 @@ dotfiles/
 ├── helix/                     # Editor config
 ├── starship/                  # Prompt config
 ├── yazi/                      # File manager config (plugins/flavors via `ya pack -i`)
-├── pi/                        # pi global agent config (settings, custom agents, extensions)
+├── pi/                        # pi global agent config (settings, custom agents, extensions, pi-lens)
 ├── kanata/                    # Kanata keyboard remapping (CapsLock nav)
 ├── tuigreet/                  # Login greeter (tuigreet) config
 ├── cargo/                     # Cargo config (sccache wrapper)

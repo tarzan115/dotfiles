@@ -1,2 +1,7 @@
 [build]
 rustc-wrapper = "sccache"
+
+# Fast linking via mold (installed in home.nix). Passed through the cc
+# wrapper; works because nixpkgs gcc is >= 12.
+[target.x86_64-unknown-linux-gnu]
+rustflags = ["-C", "link-arg=-fuse-ld=mold"]
