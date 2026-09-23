@@ -1,4 +1,7 @@
 [misc]
+# ponytail: pi self-update managed elsewhere; step "pi" also covers extensions
+# use PI_SKIP_VERSION_CHECK instead to keep extension updates
+disable = ["pi"]
 
 [commands]
 "Update flake inputs" = "bash ~/dotfiles/nixos/update-flake.sh"
